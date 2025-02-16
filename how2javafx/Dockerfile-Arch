@@ -1,0 +1,25 @@
+FROM bellsoft/liberica-openjdk-debian:23
+
+WORKDIR /app
+
+COPY . /app
+
+RUN apt-get update && \
+    apt-get install -y maven \
+    xwayland \
+    libgl1-mesa-glx \
+    libxxf86vm1 \
+    libx11-6 \
+    libxext6 \
+    libxrender1 \
+    libxtst6 \
+    libxi6 \
+    libglib2.0-0 \
+    libgtk-3-0 && \
+    rm -rf /var/lib/apt/lists/* 
+
+RUN mvn clean package
+
+WORKDIR /app/target
+
+CMD ["java", "-jar", "how2javafx.jar"]

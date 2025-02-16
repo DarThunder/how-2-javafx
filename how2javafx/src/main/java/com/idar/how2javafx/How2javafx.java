@@ -4,13 +4,13 @@
 
 package com.idar.how2javafx;
 
-import assets.login;
+import javafx.application.Application;
+import assets.Login;
 import java.io.FileInputStream;
 import java.io.IOException;
+import lib.SqlLib;
 import java.sql.SQLException;
 import java.util.Properties;
-import javax.swing.SwingUtilities;
-import lib.SqlLib;
 
 /**
  *
@@ -28,16 +28,18 @@ public class How2javafx {
             return;
         }
         
-        SwingUtilities.invokeLater(() -> {
-            new login(db).setVisible(true);
-        });
+        Login loginApp = new Login();
+
+        loginApp.setDb(db);
+
+        Application.launch(loginApp.getClass() ,args);
     }
     
     private static String[] getDBCredentials(){
         Properties properties = new Properties();
         String[] credentials = new String[3];
 
-        try (FileInputStream fis = new FileInputStream("src/main/java/var/credentials.properties")) {
+        try (FileInputStream fis = new FileInputStream("/app/src/main/java/var/credentials.properties")) {
             properties.load(fis);
 
             String dbUrl = properties.getProperty("db.url");

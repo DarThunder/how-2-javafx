@@ -1,0 +1,28 @@
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
+
+RUN powershell -Command \
+    Invoke-WebRequest -Uri https://github.com/AdoptOpenJDK/openjdk20-binaries/releases/download/jdk-23%2B35/OpenJDK-23_windows-x64_bin.zip -OutFile OpenJDK-23.zip; \
+    Expand-Archive OpenJDK-23.zip -DestinationPath C:\Program Files; \
+    Remove-Item -Force OpenJDK-23.zip
+
+ENV JAVA_HOME="C:/Program Files/OpenJDK-23"
+ENV PATH="$JAVA_HOME/bin:$PATH"
+
+WORKDIR C:/app
+COPY . C:/app
+
+RUN powershell -Command \
+    Invoke-WebRequest -Uri https://archive.apache.org/dist/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.zip -OutFile apache-maven.zip; \
+    Expand-Archive apache-maven.zip -DestinationPath C:/Program Files; \
+    Remove-Item -Force apache-maven.zip
+
+ENV MAVEN_HOME="C:/Program Files/apache-maven-3.8.4"
+ENV PATH="$MAVEN_HOME/bin:$PATH"
+
+RUN mvn clean package
+
+WORKDIR C:/app/target
+
+COPY target/how2javafx.jar C:/app/how2javafx.jar
+
+CMD ["java", "-jar", "C:/app/how2javafx.jar"]
