@@ -37,7 +37,7 @@ public class How2javafx {
         Properties properties = new Properties();
         String[] credentials = new String[3];
 
-        try (FileInputStream fis = new FileInputStream("src/main/java/var/credentials.properties")) {
+        try (FileInputStream fis = new FileInputStream("/app/src/main/java/var/credentials.properties")) {
             properties.load(fis);
 
             String dbUrl = properties.getProperty("db.url");
