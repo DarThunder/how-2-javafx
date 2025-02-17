@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package com.idar.how2javafx;
 
 import java.io.IOException;
@@ -14,28 +15,52 @@ import lib.SqlLib;
 import com.idar.how2javafx.controllers.LoginController;
 import java.io.File;
 
+/**
+ * Clase principal de la aplicación JavaFX.
+ * Se encarga de inicializar la ventana principal y cargar la escena del login.
+ */
 public class App extends Application {
-    private static SqlLib db;
+    private static SqlLib db; // Objeto de conexión con la base de datos
 
+    /**
+     * Método de inicio de la aplicación JavaFX.
+     *
+     * @param stage La ventana principal de la aplicación.
+     * @throws IOException Si ocurre un error al cargar el archivo FXML.
+     */
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = loadFXML("login");
+        FXMLLoader loader = loadFXML("login"); // Cargar el archivo FXML de login
         Parent root = loader.load();
 
+        // Obtener el controlador y asignarle la conexión a la base de datos
         LoginController controller = loader.getController();
         controller.setDb(db);
 
+        // Crear la escena con las dimensiones especificadas
         Scene scene = new Scene(root, 700, 500);
         stage.setScene(scene);
         stage.show();
     }
 
+    /**
+     * Carga un archivo FXML desde la carpeta de recursos.
+     *
+     * @param fxml Nombre del archivo FXML (sin la extensión).
+     * @return FXMLLoader con el archivo cargado.
+     * @throws IOException Si ocurre un error al acceder al archivo.
+     */
     private FXMLLoader loadFXML(String fxml) throws IOException {
         File fxmlFile = new File("src/main/resources/scenes/" + fxml + ".fxml");
         return new FXMLLoader(fxmlFile.toURI().toURL());
     }
 
+    /**
+     * Método principal que inicia la aplicación JavaFX.
+     *
+     * @param args Argumentos de la línea de comandos.
+     */
     public static void main(String[] args) {
-        launch();
+        launch(); // Inicia la aplicación
     }
 }
