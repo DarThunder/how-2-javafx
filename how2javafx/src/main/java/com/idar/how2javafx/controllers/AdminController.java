@@ -14,6 +14,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Controlador para la interfaz de administrador en una aplicación JavaFX.
+ */
 public class AdminController {
 
     @FXML
@@ -33,6 +36,10 @@ public class AdminController {
     @FXML
     private TableView<?> TV1;
 
+    /**
+     * Método de inicialización de la interfaz.
+     * Se ejecuta automáticamente cuando la vista es cargada.
+     */
     @FXML
     private void initialize() {
         VB1.setStyle("-fx-background-color: #34401a;");
@@ -43,6 +50,9 @@ public class AdminController {
         panel3.setVisible(false);
     }
 
+    /**
+     * Muestra el panel 1 y oculta los demás.
+     */
     @FXML
     private void showPanel1() {
         panel1.setVisible(true);
@@ -51,6 +61,9 @@ public class AdminController {
         panel3.setVisible(false);
     }
 
+    /**
+     * Muestra el panel 2 y oculta los demás.
+     */
     @FXML
     private void showPanel2() {
         panel1.setVisible(false);
@@ -59,20 +72,30 @@ public class AdminController {
         panel3.setVisible(false);
     }
 
+    /**
+     * Muestra el panel 3 y oculta los demás.
+     */
     @FXML
     private void showPanel3() {
         panel1.setVisible(false);
         panel2.setVisible(false);
         panel3.setVisible(true);
         panel3.setStyle("-fx-background-color: #B4BF5E;");
-
     }
 
+    /**
+     * Método para modificar el nombre (sin implementación actual).
+     */
     @FXML
     private void modificarNombre() {
-
+        // Implementar funcionalidad si es necesario
     }
 
+    /**
+     * Cambia la escena actual a la pantalla de inicio de sesión.
+     *
+     * @throws IOException si ocurre un error al cargar el archivo FXML.
+     */
     @FXML
     private void switchToLogin() throws IOException {
         File fxmlFile = new File("src/main/resources/scenes/login.fxml");
@@ -84,5 +107,4 @@ public class AdminController {
         stage.sizeToScene();
         stage.show();
     }
-
 }

@@ -5,6 +5,9 @@
 package lib;
 
 /**
+ * Clase que proporciona métodos para interactuar con una base de datos SQL.
+ * Permite realizar operaciones como la conexión a la base de datos, la gestión de usuarios,
+ * la gestión de plantas, y la verificación de credenciales.
  *
  * @author dard
  */
@@ -22,11 +25,26 @@ public class SqlLib {
     private String username;
     private String password;
 
+    /**
+     * Constructor de la clase SqlLib.
+     *
+     * @param url La URL de la base de datos.
+     * @param username El nombre de usuario para la conexión a la base de datos.
+     * @param password La contraseña para la conexión a la base de datos.
+     * @throws ClassNotFoundException Si no se encuentra el driver de la base de datos.
+     * @throws SQLException Si ocurre un error al establecer la conexión.
+     */
     public SqlLib(String url, String username, String password) throws ClassNotFoundException, SQLException {
         this.url = String.format(url, username, password);
         connect();
     }
 
+    /**
+     * Establece la conexión con la base de datos.
+     *
+     * @throws ClassNotFoundException Si no se encuentra el driver de la base de datos.
+     * @throws SQLException Si ocurre un error al establecer la conexión.
+     */
     private void connect() throws ClassNotFoundException, SQLException {
         try {
             this.connection = DriverManager.getConnection(url, username, password);
@@ -37,11 +55,25 @@ public class SqlLib {
         }
     }
 
+    /**
+     * Genera un hash de la contraseña proporcionada utilizando BCrypt.
+     *
+     * @param password La contraseña a hashear.
+     * @return El hash de la contraseña.
+     */
     public String generateHash(String password) {
         String salt = BCrypt.gensalt(12);
         return BCrypt.hashpw(password, salt);
     }
 
+    /**
+     * Verifica si las credenciales proporcionadas son válidas.
+     *
+     * @param username El nombre de usuario a verificar.
+     * @param password La contraseña a verificar.
+     * @return true si las credenciales son válidas, false en caso contrario.
+     * @throws SQLException Si ocurre un error al ejecutar la consulta.
+     */
     public boolean isValidCredentials(String username, String password) throws SQLException {
         String query = "SELECT Contrasenia FROM Usuario WHERE Nombre = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -58,6 +90,15 @@ public class SqlLib {
         }
     }
 
+    /**
+     * Crea un nuevo usuario en la base de datos.
+     *
+     * @param id El ID del usuario.
+     * @param role El rol del usuario.
+     * @param username El nombre de usuario.
+     * @param password La contraseña del usuario.
+     * @return true si el usuario se creó correctamente, false en caso contrario.
+     */
     public boolean createUser(int id, String role, String username, String password) {
         String hashedPassword = generateHash(password);
 
@@ -75,6 +116,12 @@ public class SqlLib {
         }
     }
 
+    /**
+     * Elimina un usuario de la base de datos.
+     *
+     * @param id El ID del usuario a eliminar.
+     * @return true si el usuario se eliminó correctamente, false en caso contrario.
+     */
     public boolean removeUser(int id) {
         String query = "{ CALL EliminarUsuario(?) }";
         
@@ -88,6 +135,13 @@ public class SqlLib {
         }
     }
     
+    /**
+     * Cambia el nombre de usuario de un usuario existente.
+     *
+     * @param id El ID del usuario.
+     * @param username El nuevo nombre de usuario.
+     * @return true si el nombre de usuario se cambió correctamente, false en caso contrario.
+     */
     public boolean setUsername(int id, String username) {
         String query = "{ CALL CambiarNombreUsuario(?, ?) }";
         
@@ -102,6 +156,13 @@ public class SqlLib {
         }
     }
     
+    /**
+     * Cambia la contraseña de un usuario existente.
+     *
+     * @param id El ID del usuario.
+     * @param password La nueva contraseña.
+     * @return true si la contraseña se cambió correctamente, false en caso contrario.
+     */
     public boolean setUserPassword(int id, String password) {
         String query = "{ CALL CambiarContraseniaUsuario(?, ?) }";
         
@@ -116,6 +177,13 @@ public class SqlLib {
         }
     }
 
+    /**
+     * Obtiene el rol de un usuario.
+     *
+     * @param username El nombre de usuario.
+     * @return El rol del usuario, o "nar" si no se encuentra el usuario.
+     * @throws SQLException Si ocurre un error al ejecutar la consulta.
+     */
     public String getRole(String username) throws SQLException {
         String sql = "SELECT Rol FROM Usuario WHERE Nombre = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -132,6 +200,19 @@ public class SqlLib {
         }
     }
 
+    /**
+     * Agrega una nueva planta a la base de datos.
+     *
+     * @param id El ID de la planta.
+     * @param plantName El nombre de la planta.
+     * @param scientificPlantName El nombre científico de la planta.
+     * @param plantFamily La familia de la planta.
+     * @param floweringSeason La temporada de floración de la planta.
+     * @param habitat El hábitat de la planta.
+     * @param description La descripción de la planta.
+     * @return true si la planta se agregó correctamente, false en caso contrario.
+     * @throws SQLException Si ocurre un error al ejecutar la consulta.
+     */
     public boolean addPlant(int id, String plantName, String scientificPlantName, String plantFamily, String floweringSeason, String habitat, String description) throws SQLException {
         String query = "{ CALL AgregarPlanta(?, ?, ?, ?) }";
         try (PreparedStatement statement = connection.prepareCall(query)) {
@@ -150,6 +231,12 @@ public class SqlLib {
         }
     }
 
+    /**
+     * Elimina una planta de la base de datos.
+     *
+     * @param id El ID de la planta a eliminar.
+     * @return true si la planta se eliminó correctamente, false en caso contrario.
+     */
     public boolean removePlant(int id) {
         String query = "{ CALL EliminarPlanta(?) }";
         try (PreparedStatement statement = connection.prepareCall(query)) {
@@ -162,6 +249,13 @@ public class SqlLib {
         }
     }
 
+    /**
+     * Cambia el nombre de una planta existente.
+     *
+     * @param id El ID de la planta.
+     * @param newPlantName El nuevo nombre de la planta.
+     * @return true si el nombre se cambió correctamente, false en caso contrario.
+     */
     public boolean setPlantName(int id, String newPlantName) {
         String query = "{ CALL CambiarNombrePlanta(?, ?) }";
         try (PreparedStatement statement = connection.prepareCall(query)) {
@@ -175,6 +269,13 @@ public class SqlLib {
         }
     }
 
+    /**
+     * Cambia el nombre científico de una planta existente.
+     *
+     * @param id El ID de la planta.
+     * @param newScientificPlantName El nuevo nombre científico de la planta.
+     * @return true si el nombre científico se cambió correctamente, false en caso contrario.
+     */
     public boolean setScientificPlantName(int id, String newScientificPlantName) {
         String query = "{ CALL CambiarNombreCPlanta(?, ?) }";
         try (PreparedStatement statement = connection.prepareCall(query)) {
@@ -188,6 +289,13 @@ public class SqlLib {
         }
     }
 
+    /**
+     * Cambia la familia de una planta existente.
+     *
+     * @param id El ID de la planta.
+     * @param newPlantFamily La nueva familia de la planta.
+     * @return true si la familia se cambió correctamente, false en caso contrario.
+     */
     public boolean setPlantFamily(int id, String newPlantFamily) {
         String query = "{ CALL CambiarFamiliaPlanta(?, ?) }";
         try (PreparedStatement statement = connection.prepareCall(query)) {
@@ -201,6 +309,13 @@ public class SqlLib {
         }
     }
 
+    /**
+     * Cambia la temporada de floración de una planta existente.
+     *
+     * @param id El ID de la planta.
+     * @param newFloweringSeason La nueva temporada de floración de la planta.
+     * @return true si la temporada de floración se cambió correctamente, false en caso contrario.
+     */
     public boolean setFloweringSeason(int id, String newFloweringSeason) {
         String query = "{ CALL CambiarFloracionPlanta(?, ?) }";
         try (PreparedStatement statement = connection.prepareCall(query)) {
@@ -214,6 +329,13 @@ public class SqlLib {
         }
     }
 
+    /**
+     * Cambia el hábitat de una planta existente.
+     *
+     * @param id El ID de la planta.
+     * @param newHabitat El nuevo hábitat de la planta.
+     * @return true si el hábitat se cambió correctamente, false en caso contrario.
+     */
     public boolean setHabitat(int id, String newHabitat) {
         String query = "{ CALL CambiarHabitatPlanta(?, ?) }";
         try (PreparedStatement statement = connection.prepareCall(query)) {
@@ -227,6 +349,13 @@ public class SqlLib {
         }
     }
 
+    /**
+     * Cambia la descripción de una planta existente.
+     *
+     * @param id El ID de la planta.
+     * @param newDescription La nueva descripción de la planta.
+     * @return true si la descripción se cambió correctamente, false en caso contrario.
+     */
     public boolean setDescription(int id, String newDescription) {
         String query = "{ CALL CambiarDescripcionPlanta(?, ?) }";
         try (PreparedStatement statement = connection.prepareCall(query)) {
@@ -240,6 +369,11 @@ public class SqlLib {
         }
     }
 
+    /**
+     * Cierra la conexión con la base de datos.
+     *
+     * @throws SQLException Si ocurre un error al cerrar la conexión.
+     */
     public void close() throws SQLException {
         if (connection != null) {
             connection.close();

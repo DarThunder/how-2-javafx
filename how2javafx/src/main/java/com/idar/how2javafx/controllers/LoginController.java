@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.idar.how2javafx.controllers;
 
 import java.io.File;
@@ -18,19 +14,30 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lib.SqlLib;
 
+/**
+ * Controlador para la pantalla de inicio de sesión en la aplicación JavaFX.
+ */
 public class LoginController {
 
     @FXML
-    private TextField usernameField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private Pane JP1;
-    @FXML
-    private Button JB1;
+    private TextField usernameField; // Campo de entrada para el nombre de usuario
 
-    private SqlLib db;
+    @FXML
+    private PasswordField passwordField; // Campo de entrada para la contraseña
 
+    @FXML
+    private Pane JP1; // Panel principal del formulario de inicio de sesión
+
+    @FXML
+    private Button JB1; // Botón para iniciar sesión
+
+    private SqlLib db; // Conexión a la base de datos
+
+    /**
+     * Establece la conexión con la base de datos.
+     * 
+     * @param db Instancia de SqlLib que maneja la conexión a la base de datos.
+     */
     public void setDb(SqlLib db) {
         if (db == null) {
             System.out.println("Error: Conexión a la base de datos no disponible.");
@@ -39,11 +46,20 @@ public class LoginController {
         }
     }
 
+    /**
+     * Inicializa el controlador y configura el estilo del panel de inicio de sesión.
+     */
     @FXML
     private void initialize() {
         JP1.setStyle("-fx-background-color: #CDCDCD;");
     }
 
+    /**
+     * Maneja el inicio de sesión validando las credenciales ingresadas.
+     * 
+     * @return Una cadena con el rol del usuario ("admin", "user") o "nil" si las credenciales son inválidas.
+     * @throws SQLException Si ocurre un error en la consulta a la base de datos.
+     */
     @FXML
     private String handleLogin() throws SQLException {
         String username = usernameField.getText();
@@ -65,6 +81,12 @@ public class LoginController {
         }
     }
 
+    /**
+     * Cambia la escena a la vista correspondiente según el rol del usuario.
+     * 
+     * @throws IOException  Si ocurre un error al cargar el archivo FXML.
+     * @throws SQLException Si ocurre un error al validar las credenciales.
+     */
     @FXML
     private void switchToSecondary() throws IOException, SQLException {
         String fxml = handleLogin();
