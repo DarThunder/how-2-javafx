@@ -1,17 +1,13 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
 package com.idar.how2javafx;
 
-import javafx.application.Application;
-import assets.Login;
 import java.io.FileInputStream;
 import java.io.IOException;
 import lib.SqlLib;
 import java.sql.SQLException;
 import java.util.Properties;
-
 /**
  *
  * @author dard
@@ -19,27 +15,29 @@ import java.util.Properties;
 public class How2javafx {
     private static SqlLib db;
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         String[] credentials = getDBCredentials();
-        
-        try{
-            db = new SqlLib(credentials[0], credentials[1], credentials[2]);
-        }catch(ClassNotFoundException | SQLException e){
+        if (credentials == null) {
+            System.out.println("Error: No se pudieron cargar las credenciales de la base de datos.");
             return;
         }
-        
-        Login loginApp = new Login();
 
-        loginApp.setDb(db);
+        try {
+            db = new SqlLib(credentials[0], credentials[1], credentials[2]);
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("Error: No se pudo conectar a la base de datos.");
+            e.printStackTrace();
+            return;
+        }
 
-        Application.launch(loginApp.getClass() ,args);
+        App.main(args);
     }
-    
-    private static String[] getDBCredentials(){
+
+    private static String[] getDBCredentials() {
         Properties properties = new Properties();
         String[] credentials = new String[3];
 
-        try (FileInputStream fis = new FileInputStream("/app/src/main/java/var/credentials.properties")) {
+        try (FileInputStream fis = new FileInputStream("src/main/java/var/credentials.properties")) {
             properties.load(fis);
 
             String dbUrl = properties.getProperty("db.url");

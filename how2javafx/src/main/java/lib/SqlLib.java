@@ -42,25 +42,14 @@ public class SqlLib {
         return BCrypt.hashpw(password, salt);
     }
 
-    public void createUser(String username, String password) throws SQLException {
-        String hashedPassword = generateHash(password);
-
-        String query = "INSERT INTO sudoers (username, user_password) VALUES (?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, username);
-            statement.setString(2, hashedPassword);
-            statement.executeUpdate();
-        }
-    }
-
     public boolean isValidCredentials(String username, String password) throws SQLException {
-        String query = "SELECT user_password FROM sudoers WHERE username = ?";
+        String query = "SELECT Contrasenia FROM Usuario WHERE Nombre = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                String storedHash = resultSet.getString("user_password");
+                String storedHash = resultSet.getString("Contrasenia");
 
                 return BCrypt.checkpw(password, storedHash);
             } else {
@@ -68,20 +57,186 @@ public class SqlLib {
             }
         }
     }
+
+    public boolean createUser(int id, String role, String username, String password) {
+        String hashedPassword = generateHash(password);
+
+        String query = "{ CALL AgregarUsuario(?, ?, ?, ?) }";
+        try (PreparedStatement statement = connection.prepareCall(query)) {
+            statement.setInt(1, id);
+            statement.setString(2, role);
+            statement.setString(3, username);
+            statement.setString(4, hashedPassword);
+            statement.execute();
+
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean removeUser(int id) {
+        String query = "{ CALL EliminarUsuario(?) }";
+        
+        try (PreparedStatement statement = connection.prepareCall(query)){
+            statement.setInt(1, id);
+            statement.execute();
+            
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
     
+    public boolean setUsername(int id, String username) {
+        String query = "{ CALL CambiarNombreUsuario(?, ?) }";
+        
+        try (PreparedStatement statement = connection.prepareCall(query)){
+            statement.setInt(1, id);
+            statement.setString(2, username);
+            statement.execute();
+            
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+    
+    public boolean setUserPassword(int id, String password) {
+        String query = "{ CALL CambiarContraseniaUsuario(?, ?) }";
+        
+        try (PreparedStatement statement = connection.prepareCall(query)){
+            statement.setInt(1, id);
+            statement.setString(2, password);
+            statement.execute();
+            
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
     public String getRole(String username) throws SQLException {
-        String sql = "SELECT role FROM users WHERE username = ?";
+        String sql = "SELECT Rol FROM Usuario WHERE Nombre = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, username);
-            
+
             ResultSet rs = ps.executeQuery();
-            
+
             if (rs.next()) {
-                String role = rs.getString("role");
+                String role = rs.getString("Rol");
                 return role;
             } else {
                 return "nar";
             }
+        }
+    }
+
+    public boolean addPlant(int id, String plantName, String scientificPlantName, String plantFamily, String floweringSeason, String habitat, String description) throws SQLException {
+        String query = "{ CALL AgregarPlanta(?, ?, ?, ?) }";
+        try (PreparedStatement statement = connection.prepareCall(query)) {
+            statement.setInt(1, id);
+            statement.setString(2, plantName);
+            statement.setString(3, scientificPlantName);
+            statement.setString(4, plantFamily);
+            statement.setString(5, floweringSeason);
+            statement.setString(6, habitat);
+            statement.setString(7, description);
+            statement.execute();
+
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean removePlant(int id) {
+        String query = "{ CALL EliminarPlanta(?) }";
+        try (PreparedStatement statement = connection.prepareCall(query)) {
+            statement.setInt(1, id);
+            statement.execute();
+
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean setPlantName(int id, String newPlantName) {
+        String query = "{ CALL CambiarNombrePlanta(?, ?) }";
+        try (PreparedStatement statement = connection.prepareCall(query)) {
+            statement.setInt(1, id);
+            statement.setString(2, newPlantName);
+            statement.execute();
+
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean setScientificPlantName(int id, String newScientificPlantName) {
+        String query = "{ CALL CambiarNombreCPlanta(?, ?) }";
+        try (PreparedStatement statement = connection.prepareCall(query)) {
+            statement.setInt(1, id);
+            statement.setString(2, newScientificPlantName);
+            statement.execute();
+
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean setPlantFamily(int id, String newPlantFamily) {
+        String query = "{ CALL CambiarFamiliaPlanta(?, ?) }";
+        try (PreparedStatement statement = connection.prepareCall(query)) {
+            statement.setInt(1, id);
+            statement.setString(2, newPlantFamily);
+            statement.execute();
+
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean setFloweringSeason(int id, String newFloweringSeason) {
+        String query = "{ CALL CambiarFloracionPlanta(?, ?) }";
+        try (PreparedStatement statement = connection.prepareCall(query)) {
+            statement.setInt(1, id);
+            statement.setString(2, newFloweringSeason);
+            statement.execute();
+
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean setHabitat(int id, String newHabitat) {
+        String query = "{ CALL CambiarHabitatPlanta(?, ?) }";
+        try (PreparedStatement statement = connection.prepareCall(query)) {
+            statement.setInt(1, id);
+            statement.setString(2, newHabitat);
+            statement.execute();
+
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean setDescription(int id, String newDescription) {
+        String query = "{ CALL CambiarDescripcionPlanta(?, ?) }";
+        try (PreparedStatement statement = connection.prepareCall(query)) {
+            statement.setInt(1, id);
+            statement.setString(2, newDescription);
+            statement.execute();
+
+            return true;
+        } catch (SQLException e) {
+            return false;
         }
     }
 
