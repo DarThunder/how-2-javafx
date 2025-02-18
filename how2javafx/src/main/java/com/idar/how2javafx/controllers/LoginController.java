@@ -31,6 +31,9 @@ public class LoginController {
     @FXML
     private Button JB1; // Botón para iniciar sesión
 
+    @FXML
+    private Button JB2; // Botón para abrir la ventana de creación de usuario
+
     private SqlLib db; // Conexión a la base de datos
 
     /**
@@ -96,10 +99,25 @@ public class LoginController {
         File fxmlFile = new File("src/main/resources/scenes/" + fxml + ".fxml");
         Parent root = FXMLLoader.load(fxmlFile.toURI().toURL());
         Stage stage = (Stage) JB1.getScene().getWindow();
-        Scene scene = new Scene(root, 900, 600);
+        Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setWidth(1000);
-        stage.setHeight(650);
+        stage.sizeToScene();
+        stage.setResizable(false);
+    }
+
+    /**
+     * Abre la ventana de creación de usuario.
+     * 
+     * @throws IOException Si ocurre un error al cargar el archivo FXML.
+     */
+    @FXML
+    private void openCreateUserScene() throws IOException {
+        File fxmlFile = new File("src/main/resources/scenes/createUser.fxml");
+        Parent root = FXMLLoader.load(fxmlFile.toURI().toURL());
+        Stage stage = (Stage) JB2.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.sizeToScene();
         stage.setResizable(false);
     }
 }

@@ -45,11 +45,17 @@
                                 <Font size="14.0" />
                             </font>
                         </PasswordField>
-                        <Button id="JB1" fx:id="JB1" layoutX="179.0" layoutY="456.0" mnemonicParsing="false" onAction="#switchToSecondary" text="Iniciar Sesión" textFill="#34401a">
+                        <Button id="JB1" fx:id="JB1" layoutX="83.0" layoutY="333.0" mnemonicParsing="false" onAction="#switchToSecondary" prefHeight="30.0" prefWidth="118.0" text="Iniciar Sesión" textFill="#34401a">
                             <font>
                                 <Font name="System Bold" size="14.0" />
                             </font>
                         </Button>
+                  <Label layoutX="95.0" layoutY="386.0" />
+                  <Button id="JB2" fx:id="JB2" layoutX="73.0" layoutY="403.0" mnemonicParsing="false" text="Crear nueva cuenta" onAction="#openCreateUserScene">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
                     </children>
                 </Pane>
                 <Pane layoutX="300.0" layoutY="1.0">

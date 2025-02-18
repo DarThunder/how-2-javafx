@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idar.how2javafx.controllers.UserController">
-    
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idar.how2javafx.controllers.UserController">
+   <children>
+      <Pane prefHeight="500.0" prefWidth="706.0">
+         <children>
+            <Pane prefHeight="59.0" prefWidth="706.0" style="-fx-background-color: #64732F;">
+               <children>
+                  <TextField layoutX="453.0" layoutY="17.0" />
+                  <Button layoutX="602.0" layoutY="17.0" mnemonicParsing="false" text="Buscar" />
+                  <ImageView fitHeight="31.0" fitWidth="32.0" layoutX="422.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/pngwing.com.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="61.0" layoutY="17.0" text="Plantas">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane layoutY="59.0" prefHeight="442.0" prefWidth="706.0" style="-fx-background-color: #64732F;">
+               <children>
+                  <ScrollPane layoutX="20.0" prefHeight="430.0" prefWidth="660.0" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
 </AnchorPane>
