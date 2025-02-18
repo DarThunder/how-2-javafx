@@ -20,7 +20,7 @@ public class How2javafx {
      *
      * @param args Argumentos de la línea de comandos.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         String[] credentials = getDBCredentials(); // Obtener credenciales de la base de datos
         if (credentials == null) {
             System.out.println("Error: No se pudieron cargar las credenciales de la base de datos.");
@@ -31,6 +31,7 @@ public class How2javafx {
             // Inicializar la conexión con la base de datos
             db = new SqlLib(credentials[0], credentials[1], credentials[2]);
         } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("Url: " + credentials[0] + "\nUsuario: " + credentials[1]);
             System.out.println("Error: No se pudo conectar a la base de datos.");
             e.printStackTrace();
             return;
@@ -45,11 +46,16 @@ public class How2javafx {
      *
      * @return Un array de Strings con la URL, usuario y contraseña de la base de datos.
      */
+    /**
+     * Carga las credenciales de la base de datos desde un archivo de propiedades.
+     *
+     * @return Un array de Strings con la URL, usuario y contraseña de la base de datos.
+     */
     private static String[] getDBCredentials() {
         Properties properties = new Properties();
         String[] credentials = new String[3];
 
-        try (FileInputStream fis = new FileInputStream("/app/src/main/java/var/credentials.properties")) {
+        try (FileInputStream fis = new FileInputStream("src/main/java/var/credentials.properties")) {
             properties.load(fis);
 
             // Obtener los valores de las propiedades
