@@ -19,6 +19,7 @@ public class How2javafx {
      * Método principal que inicia la aplicación y establece la conexión con la base de datos.
      *
      * @param args Argumentos de la línea de comandos.
+     * @throws java.sql.SQLException
      */
     public static void main(String[] args) throws SQLException {
         String[] credentials = getDBCredentials(); // Obtener credenciales de la base de datos
@@ -29,8 +30,8 @@ public class How2javafx {
 
         try {
             // Inicializar la conexión con la base de datos
-            db = new SqlLib(credentials[0], credentials[1], credentials[2]);
-        } catch (ClassNotFoundException | SQLException e) {
+            db = SqlLib.getInstance(credentials[0], credentials[1], credentials[2]);
+        } catch (SQLException e) {
             System.out.println("Url: " + credentials[0] + "\nUsuario: " + credentials[1]);
             System.out.println("Error: No se pudo conectar a la base de datos.");
             e.printStackTrace();

@@ -39,22 +39,19 @@ public class LoginController {
     /**
      * Establece la conexión con la base de datos.
      * 
-     * @param db Instancia de SqlLib que maneja la conexión a la base de datos.
+     * @throws java.sql.SQLException
      */
-    public void setDb(SqlLib db) {
-        if (db == null) {
-            System.out.println("Error: Conexión a la base de datos no disponible.");
-        } else {
-            this.db = db;
-        }
+    public void setDb() throws SQLException {
+        this.db = SqlLib.getInstance("", "", "");
     }
 
     /**
      * Inicializa el controlador y configura el estilo del panel de inicio de sesión.
      */
     @FXML
-    private void initialize() {
+    private void initialize() throws SQLException {
         JP1.setStyle("-fx-background-color: #CDCDCD;");
+        setDb();
     }
 
     /**
@@ -113,7 +110,9 @@ public class LoginController {
     @FXML
     private void openCreateUserScene() throws IOException {
         File fxmlFile = new File("src/main/resources/scenes/createUser.fxml");
-        Parent root = FXMLLoader.load(fxmlFile.toURI().toURL());
+        FXMLLoader loader = new FXMLLoader(fxmlFile.toURI().toURL());
+        
+        Parent root = loader.load();
         Stage stage = (Stage) JB2.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);

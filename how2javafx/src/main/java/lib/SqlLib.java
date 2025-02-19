@@ -21,6 +21,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class SqlLib {
 
+    private static SqlLib instance;
     private Connection connection;
     private final String url;
     private String username;
@@ -32,11 +33,9 @@ public class SqlLib {
      * @param url La URL de la base de datos.
      * @param username El nombre de usuario para la conexión a la base de datos.
      * @param password La contraseña para la conexión a la base de datos.
-     * @throws ClassNotFoundException Si no se encuentra el driver de la base de
-     * datos.
      * @throws SQLException Si ocurre un error al establecer la conexión.
      */
-    public SqlLib(String url, String username, String password) throws ClassNotFoundException, SQLException {
+    public SqlLib(String url, String username, String password) throws SQLException {
         this.url = String.format(url, username, password);
         connect();
     }
@@ -48,7 +47,7 @@ public class SqlLib {
      * datos.
      * @throws SQLException Si ocurre un error al establecer la conexión.
      */
-    private void connect() {
+    private void connect() throws SQLException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
 
@@ -56,18 +55,21 @@ public class SqlLib {
             System.out.println("Conexión establecida exitosamente.");
         } catch (SQLException e) {
             System.err.println("Error de SQL: " + e.getMessage());
+            
+            close();
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             System.err.println("Error de reflexión: " + e.getMessage());
         } catch (IllegalArgumentException e) {
             System.err.println("Argumento ilegal: " + e.getMessage());
         } catch (InvocationTargetException e) {
-        } finally {
-            try {
-                close();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
         }
+    }
+    
+    public static SqlLib getInstance(String url, String username, String password) throws SQLException {
+        if (instance == null) {
+            instance = new SqlLib(url, username, password);
+        }
+        return instance;
     }
 
     /**
@@ -96,13 +98,13 @@ public class SqlLib {
      * @throws SQLException Si ocurre un error al ejecutar la consulta.
      */
     public boolean isValidCredentials(String username, String password) throws SQLException {
-        String query = "SELECT Contrasenia FROM Usuario WHERE Nombre = ?";
+        String query = "SELECT contrasena FROM usuario WHERE nombre = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                String storedHash = resultSet.getString("Contrasenia");
+                String storedHash = resultSet.getString("contrasena");
 
                 return BCrypt.checkpw(password, storedHash);
             } else {
@@ -123,17 +125,18 @@ public class SqlLib {
      */
     public boolean createUser(int id, String role, String username, String password) {
         String hashedPassword = generateHash(password);
+        System.out.println(hashedPassword);
 
-        String query = "{ CALL AgregarUsuario(?, ?, ?, ?) }";
+        String query = "{ CALL AgregarUsuario(?, ?, ?) }";
         try (PreparedStatement statement = connection.prepareCall(query)) {
-            statement.setInt(1, id);
-            statement.setString(2, role);
-            statement.setString(3, username);
-            statement.setString(4, hashedPassword);
+            statement.setString(1, role);
+            statement.setString(2, username);
+            statement.setString(3, hashedPassword);
             statement.execute();
 
             return true;
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             return false;
         }
     }
@@ -210,7 +213,7 @@ public class SqlLib {
      * @throws SQLException Si ocurre un error al ejecutar la consulta.
      */
     public String getRole(String username) throws SQLException {
-        String sql = "SELECT Rol FROM Usuario WHERE Nombre = ?";
+        String sql = "SELECT rol FROM usuario WHERE nombre = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, username);
 
@@ -239,20 +242,20 @@ public class SqlLib {
      * contrario.
      * @throws SQLException Si ocurre un error al ejecutar la consulta.
      */
-    public boolean addPlant(int id, String plantName, String scientificPlantName, String plantFamily, String floweringSeason, String habitat, String description) throws SQLException {
-        String query = "{ CALL AgregarPlanta(?, ?, ?, ?) }";
+    public boolean addPlant(String plantName, String scientificPlantName, String plantFamily, String floweringSeason, String habitat, String description) throws SQLException {
+        String query = "{ CALL AgregarPlanta(?, ?, ?, ?, ?, ?) }";
         try (PreparedStatement statement = connection.prepareCall(query)) {
-            statement.setInt(1, id);
-            statement.setString(2, plantName);
-            statement.setString(3, scientificPlantName);
-            statement.setString(4, plantFamily);
-            statement.setString(5, floweringSeason);
-            statement.setString(6, habitat);
-            statement.setString(7, description);
+            statement.setString(1, plantName);
+            statement.setString(2, scientificPlantName);
+            statement.setString(3, plantFamily);
+            statement.setString(4, floweringSeason);
+            statement.setString(5, habitat);
+            statement.setString(6, description);
             statement.execute();
 
             return true;
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             return false;
         }
     }

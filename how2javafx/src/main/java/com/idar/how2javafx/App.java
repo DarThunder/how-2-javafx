@@ -35,7 +35,6 @@ public class App extends Application {
 
         // Obtener el controlador y asignarle la conexión a la base de datos
         LoginController controller = loader.getController();
-        controller.setDb(db);
 
         // Crear la escena con las dimensiones especificadas
         Scene scene = new Scene(root, 700, 500);
