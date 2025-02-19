@@ -28,9 +28,9 @@ public class AdminController {
     private VBox VB1;
     @FXML
     private StackPane SP1;
+
     @FXML
     private AnchorPane panel1;
-
     @FXML
     private TextField plantNameField;
     @FXML
@@ -48,14 +48,27 @@ public class AdminController {
     private AnchorPane panel2;
     @FXML
     private TextField remove;
-    
+
     @FXML
     private AnchorPane panel3;
+    @FXML
+    private TextField changeName;
+    @FXML
+    private TextField changeScientificName;
+    @FXML
+    private TextField changeFamily;
+    @FXML
+    private TextField changeFlowerinSeason;
+    @FXML
+    private TextField changeHabitat;
+    @FXML
+    private TextField changeDescription;
+
     @FXML
     private Button JB2;
     @FXML
     private TableView<?> TV1;
-    
+
     private SqlLib db;
 
     /**
@@ -70,8 +83,25 @@ public class AdminController {
         panel1.setVisible(false);
         panel2.setVisible(false);
         panel3.setVisible(false);
-        
+
         this.db = SqlLib.getInstance("", "", "");
+    }
+
+    /**
+     * Cambia la escena actual a la pantalla de inicio de sesión.
+     *
+     * @throws IOException si ocurre un error al cargar el archivo FXML.
+     */
+    @FXML
+    private void switchToLogin() throws IOException {
+        File fxmlFile = new File("src/main/resources/scenes/login.fxml");
+        FXMLLoader loader = new FXMLLoader(fxmlFile.toURI().toURL());
+        Parent root = loader.load();
+        Stage stage = (Stage) JB2.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.sizeToScene();
+        stage.show();
     }
 
     /**
@@ -93,9 +123,8 @@ public class AdminController {
         String floweringSeason = plantFlowerinSeasonField.getText();
         String habitat = plantHabitatField.getText();
         String description = plantDescriptionField.getText();
-        System.out.println(name + " " + scientificName + " " + family + " " + floweringSeason + " " + habitat + " " + description);
-        
-        if(db.addPlant(name, scientificName, family, floweringSeason, habitat, description)) {
+
+        if (db.addPlant(name, scientificName, family, floweringSeason, habitat, description)) {
             System.out.println("Se agrego planta tu");
             plantNameField.setText("");
             plantScientificNameField.setText("");
@@ -118,18 +147,19 @@ public class AdminController {
         panel2.setStyle("-fx-background-color: #B4BF5E;");
         panel3.setVisible(false);
     }
-    
+
     @FXML
     private void removePlant() {
         try {
             int plantID = Integer.parseInt(remove.getText());
-            
+
             if (db.removePlant(plantID)) {
                 System.out.println("Si se pudo w");
+                remove.setText("");
             } else {
                 throw new Exception("Pendejo");
             }
-            
+
         } catch (Exception e) {
             System.out.println("No se pudo papa ff");
             System.out.println(e.getMessage());
@@ -151,24 +181,62 @@ public class AdminController {
      * Método para modificar el nombre (sin implementación actual).
      */
     @FXML
-    private void modificarNombre() {
-        // Implementar funcionalidad si es necesario
+    private void changePlantName() {
+        String plantName = changeName.getText();
+        if (db.setPlantName(1, plantName)) {
+            System.out.println("Si se pudo w");
+        } else {
+            System.out.println("Ni pedo");
+        }
     }
 
-    /**
-     * Cambia la escena actual a la pantalla de inicio de sesión.
-     *
-     * @throws IOException si ocurre un error al cargar el archivo FXML.
-     */
     @FXML
-    private void switchToLogin() throws IOException {
-        File fxmlFile = new File("src/main/resources/scenes/login.fxml");
-        FXMLLoader loader = new FXMLLoader(fxmlFile.toURI().toURL());
-        Parent root = loader.load();
-        Stage stage = (Stage) JB2.getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.sizeToScene();
-        stage.show();
+    private void changePlantScientificName() {
+        String plantScientificName = changeScientificName.getText();
+        if (db.setScientificPlantName(1, plantScientificName)) {
+            System.out.println("Si se pudo w");
+        } else {
+            System.out.println("Ni pedo");
+        }
+    }
+
+    @FXML
+    private void changePlantFamily() {
+        String plantFamily = changeFamily.getText();
+        if (db.setPlantFamily(1, plantFamily)) {
+            System.out.println("Si se pudo w");
+        } else {
+            System.out.println("Ni pedo");
+        }
+    }
+
+    @FXML
+    private void changePlantFlowerinSeason() {
+        String flowerinSeason = changeFlowerinSeason.getText();
+        if (db.setFloweringSeason(1, flowerinSeason)) {
+            System.out.println("Si se pudo w");
+        } else {
+            System.out.println("Ni pedo");
+        }
+    }
+
+    @FXML
+    private void changePlantHabitat() {
+        String plantHabitat = changeHabitat.getText();
+        if (db.setHabitat(1, plantHabitat)) {
+            System.out.println("Si se pudo w");
+        } else {
+            System.out.println("Ni pedo");
+        }
+    }
+
+    @FXML
+    private void changePlantDescription() {
+        String plantDescription = changeDescription.getText();
+        if (db.setDescription(1, plantDescription)) {
+            System.out.println("Si se pudo w");
+        } else {
+            System.out.println("Ni pedo");
+        }
     }
 }
