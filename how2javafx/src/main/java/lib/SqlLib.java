@@ -17,7 +17,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 import org.mindrot.jbcrypt.BCrypt;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SqlLib {
 
@@ -55,7 +59,7 @@ public class SqlLib {
             System.out.println("Conexión establecida exitosamente.");
         } catch (SQLException e) {
             System.err.println("Error de SQL: " + e.getMessage());
-            
+
             close();
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             System.err.println("Error de reflexión: " + e.getMessage());
@@ -64,7 +68,7 @@ public class SqlLib {
         } catch (InvocationTargetException e) {
         }
     }
-    
+
     public static SqlLib getInstance(String url, String username, String password) throws SQLException {
         if (instance == null) {
             instance = new SqlLib(url, username, password);
@@ -105,9 +109,14 @@ public class SqlLib {
 
             if (resultSet.next()) {
                 String storedHash = resultSet.getString("contrasena");
-
-                return BCrypt.checkpw(password, storedHash);
+                if (BCrypt.checkpw(password, storedHash)) {
+                    return true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Contraseña incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
             } else {
+                JOptionPane.showMessageDialog(null, "Usuario no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }
@@ -116,14 +125,13 @@ public class SqlLib {
     /**
      * Crea un nuevo usuario en la base de datos.
      *
-     * @param id El ID del usuario.
      * @param role El rol del usuario.
      * @param username El nombre de usuario.
      * @param password La contraseña del usuario.
      * @return true si el usuario se creó correctamente, false en caso
      * contrario.
      */
-    public boolean createUser(int id, String role, String username, String password) {
+    public boolean createUser(int par, String role, String username, String password) {
         String hashedPassword = generateHash(password);
         System.out.println(hashedPassword);
 
@@ -133,7 +141,6 @@ public class SqlLib {
             statement.setString(2, username);
             statement.setString(3, hashedPassword);
             statement.execute();
-
             return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -154,7 +161,6 @@ public class SqlLib {
         try (PreparedStatement statement = connection.prepareCall(query)) {
             statement.setInt(1, id);
             statement.execute();
-
             return true;
         } catch (SQLException e) {
             return false;
@@ -192,13 +198,12 @@ public class SqlLib {
      * contrario.
      */
     public boolean setUserPassword(int id, String password) {
+        String hashedPassword = generateHash(password);
         String query = "{ CALL CambiarContraseniaUsuario(?, ?) }";
-
         try (PreparedStatement statement = connection.prepareCall(query)) {
             statement.setInt(1, id);
-            statement.setString(2, password);
-            statement.execute();
-
+            statement.setString(2, hashedPassword);
+            statement.execute();  
             return true;
         } catch (SQLException e) {
             return false;
@@ -416,4 +421,54 @@ public class SqlLib {
             System.out.println("Conexión cerrada.");
         }
     }
+    
+    public List<String[]> cargarUsuariosDesdeBD() throws SQLException {
+        List<String[]> usuarios = new ArrayList<>();
+        String query = "SELECT id_usuario, nombre, contrasena, rol FROM usuario";
+
+        // Ejemplo de conexión y consulta a la base de datos
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet rs = statement.executeQuery())
+             {
+
+            while (rs.next()) {
+                String[] usuario = new String[4];
+                usuario[0] = rs.getString("id_usuario");
+                usuario[1] = rs.getString("nombre");
+                usuario[2] = rs.getString("contrasena");
+                usuario[3] = rs.getString("rol");
+                usuarios.add(usuario);
+            }
+        }
+
+        return usuarios;
+    }
+
+    public List<String[]> cargarDatosDesdeBD() {
+        List<String[]> plantas = new ArrayList<>();
+        String query = "SELECT id_planta, nombre, nombre_cientifico, familia, epoca_floracion, habitat, descripcion, is_deleted FROM planta WHERE is_deleted = 0";
+
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String[] planta = new String[8];
+                planta[0] = resultSet.getString("id_planta");
+                planta[1] = resultSet.getString("nombre");
+                planta[2] = resultSet.getString("nombre_cientifico");
+                planta[3] = resultSet.getString("familia");
+                planta[4] = resultSet.getString("epoca_floracion");
+                planta[5] = resultSet.getString("habitat");
+                planta[6] = resultSet.getString("descripcion");
+                planta[7] = resultSet.getString("is_deleted");
+
+                plantas.add(planta);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al cargar datos: " + e.getMessage());
+        }
+        return plantas;
+    
+}
+
 }

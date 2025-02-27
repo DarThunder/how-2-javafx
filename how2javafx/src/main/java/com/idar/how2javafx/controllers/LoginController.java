@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -38,7 +39,7 @@ public class LoginController {
 
     /**
      * Establece la conexión con la base de datos.
-     * 
+     *
      * @throws java.sql.SQLException
      */
     public void setDb() throws SQLException {
@@ -46,7 +47,8 @@ public class LoginController {
     }
 
     /**
-     * Inicializa el controlador y configura el estilo del panel de inicio de sesión.
+     * Inicializa el controlador y configura el estilo del panel de inicio de
+     * sesión.
      */
     @FXML
     private void initialize() throws SQLException {
@@ -56,9 +58,11 @@ public class LoginController {
 
     /**
      * Maneja el inicio de sesión validando las credenciales ingresadas.
-     * 
-     * @return Una cadena con el rol del usuario ("admin", "user") o "nil" si las credenciales son inválidas.
-     * @throws SQLException Si ocurre un error en la consulta a la base de datos.
+     *
+     * @return Una cadena con el rol del usuario ("admin", "user") o "nil" si
+     * las credenciales son inválidas.
+     * @throws SQLException Si ocurre un error en la consulta a la base de
+     * datos.
      */
     @FXML
     private String handleLogin() throws SQLException {
@@ -82,17 +86,48 @@ public class LoginController {
     }
 
     /**
+     * Verifica si los campos de nombre de usuario y contraseña están llenos.
+     *
+     * @return {@code true} si ambos campos contienen texto, {@code false} en
+     * caso contrario.
+     */
+    private boolean validarCampos() {
+        return !usernameField.getText().trim().isEmpty() && !passwordField.getText().trim().isEmpty();
+    }
+
+    /**
+     * Muestra una alerta de advertencia con un mensaje específico.
+     *
+     * @param mensaje El mensaje que se mostrará en la alerta.
+     */
+    private void mostrarAlerta(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Campos incompletos");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        Stage stage = (Stage) usernameField.getScene().getWindow();
+        alert.initOwner(stage); // Establecer como ventana padre
+        alert.showAndWait();
+    }
+
+    /**
      * Cambia la escena a la vista correspondiente según el rol del usuario.
-     * 
-     * @throws IOException  Si ocurre un error al cargar el archivo FXML.
+     *
+     * @throws IOException Si ocurre un error al cargar el archivo FXML.
      * @throws SQLException Si ocurre un error al validar las credenciales.
      */
     @FXML
     private void switchToSecondary() throws IOException, SQLException {
+        if (!validarCampos()) {
+            mostrarAlerta("Todos los campos deben estar llenos.");
+            return;
+        }
+
         String fxml = handleLogin();
         if (!fxml.equals("admin") && !fxml.equals("user")) {
             return;
         }
+
         File fxmlFile = new File("src/main/resources/scenes/" + fxml + ".fxml");
         Parent root = FXMLLoader.load(fxmlFile.toURI().toURL());
         Stage stage = (Stage) JB1.getScene().getWindow();
@@ -104,19 +139,19 @@ public class LoginController {
 
     /**
      * Abre la ventana de creación de usuario.
-     * 
+     *
      * @throws IOException Si ocurre un error al cargar el archivo FXML.
      */
     @FXML
     private void openCreateUserScene() throws IOException {
-        File fxmlFile = new File("src/main/resources/scenes/createUser.fxml");
-        FXMLLoader loader = new FXMLLoader(fxmlFile.toURI().toURL());
-        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/createUser.fxml"));
         Parent root = loader.load();
-        Stage stage = (Stage) JB2.getScene().getWindow();
         Scene scene = new Scene(root);
+        Stage stage = (Stage) JB2.getScene().getWindow();
         stage.setScene(scene);
         stage.sizeToScene();
         stage.setResizable(false);
+        stage.centerOnScreen();
     }
+
 }

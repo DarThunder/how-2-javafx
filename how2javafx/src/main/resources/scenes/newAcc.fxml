@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="600.0" style="-fx-background-image: url(&quot;../images/plantas.png&quot;); -fx-background-size: cover;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller=".NewAccController">
+   <children>
+      <ImageView fitHeight="645.0" fitWidth="720.0" layoutX="-109.0" layoutY="-22.0" pickOnBounds="true">
+         <image>
+            <Image url="@../images/plantas.png" />
+         </image>
+      </ImageView>
+      <Pane layoutX="32.0" layoutY="47.0" prefHeight="522.0" prefWidth="535.0" style="-fx-background-color: #E5FFE3; -fx-background-radius: 6%; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);">
+         <children>
+            <Button layoutX="183.0" layoutY="384.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="171.0" style="-fx-background-color: #FFFFFF; -fx-background-size: 10px; -fx-background-radius: 15px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Crear cuenta" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Bold" size="17.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label layoutX="140.0" layoutY="161.0" prefHeight="47.0" prefWidth="70.0" text="Nombre" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="140.0" layoutY="249.0" prefHeight="41.0" prefWidth="97.0" text="Contraseña" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField layoutX="140.0" layoutY="208.0" prefHeight="35.0" prefWidth="256.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
+            <TextField layoutX="140.0" layoutY="290.0" prefHeight="35.0" prefWidth="256.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
+            <ImageView fitHeight="76.0" fitWidth="97.0" layoutX="230.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/user.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="198.0" layoutY="14.0" prefHeight="54.0" prefWidth="140.0" text="Crear cuenta" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Bold" size="22.0" />
+               </font>
+            </Label>
+            <Button accessibleText="Regresar al menú de inicio de sesión" layoutX="14.0" layoutY="461.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="97.0" style="-fx-background-color: #FFFFFF; -fx-background-size: 10px; -fx-background-radius: 15px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Atrás" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial Bold" size="17.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

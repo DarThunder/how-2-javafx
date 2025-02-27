@@ -17,7 +17,7 @@
             <children>
                 <Pane fx:id="JP1" prefHeight="500.0" prefWidth="300.0">
                     <children>
-                        <Label prefHeight="110.0" prefWidth="300.0" text="Inicio de Sesión" textFill="#252617">
+                        <Label layoutX="1.0" prefHeight="110.0" prefWidth="300.0" text="Inicio de Sesión" textAlignment="CENTER" textFill="#252617">
                             <font>
                                 <Font name="Arial Black" size="24.0" />
                             </font>
@@ -35,27 +35,32 @@
                                 <Font name="Arial Black" size="16.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="usernameField" layoutX="36.0" layoutY="186.0" prefHeight="39.0" prefWidth="229.0">
+                        <TextField fx:id="usernameField" layoutX="36.0" layoutY="186.0" prefHeight="39.0" prefWidth="229.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </TextField>
-                        <PasswordField fx:id="passwordField" layoutX="36.0" layoutY="262.0" prefHeight="39.0" prefWidth="229.0">
+                        <PasswordField fx:id="passwordField" layoutX="36.0" layoutY="262.0" prefHeight="39.0" prefWidth="229.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </PasswordField>
-                        <Button id="JB1" fx:id="JB1" layoutX="83.0" layoutY="333.0" mnemonicParsing="false" onAction="#switchToSecondary" prefHeight="30.0" prefWidth="118.0" text="Iniciar Sesión" textFill="#34401a">
+                        <Button id="JB1" fx:id="JB1" layoutX="87.0" layoutY="342.0" mnemonicParsing="false" onAction="#switchToSecondary" prefHeight="30.0" prefWidth="118.0" style="-fx-background-color: #FFFFFF; -fx-background-size: 10px; -fx-background-radius: 15px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Iniciar Sesión" textFill="#34401a">
                             <font>
                                 <Font name="System Bold" size="14.0" />
                             </font>
                         </Button>
                   <Label layoutX="95.0" layoutY="386.0" />
-                  <Button id="JB2" fx:id="JB2" layoutX="73.0" layoutY="403.0" mnemonicParsing="false" text="Crear nueva cuenta" onAction="#openCreateUserScene">
+                  <Button id="JB2" fx:id="JB2" layoutX="73.0" layoutY="420.0" mnemonicParsing="false" onAction="#openCreateUserScene" style="-fx-background-color: #FFFFFF; -fx-background-size: 10px; -fx-background-radius: 15px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Crear nueva cuenta">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Button>
+                  <Label layoutX="135.0" layoutY="391.0" text="Ó">
+                     <font>
+                        <Font name="Arial Black" size="16.0" />
+                     </font>
+                  </Label>
                     </children>
                 </Pane>
                 <Pane layoutX="300.0" layoutY="1.0">

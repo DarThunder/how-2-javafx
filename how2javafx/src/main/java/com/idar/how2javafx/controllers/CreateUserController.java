@@ -15,11 +15,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 import lib.SqlLib;
 
 public class CreateUserController {
 
+    @FXML
+    private Button BAtras;
+    @FXML
+    private ComboBox CB1;
     @FXML
     private TextField username;
 
@@ -34,7 +40,7 @@ public class CreateUserController {
     public void setDB() throws SQLException {
         this.db = db.getInstance("", "", "");
     }
-    
+
     @FXML
     private void initialize() throws SQLException {
         setDB();
@@ -42,21 +48,38 @@ public class CreateUserController {
 
     @FXML
     public void create() throws IOException {
-        String newUsername = username.getText();
-        String newPassword = passwd.getText();
+        String newUsername = username.getText().trim();
+        String newPassword = passwd.getText().trim();
+        
+        if(newUsername.isEmpty() || newPassword.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Por favor, llena todos los campos");
+            return;
+        }
 
-        if (db.createUser((int) UUID.randomUUID().getLeastSignificantBits(), "admin", newUsername, newPassword)) {
+        if (db.createUser((int) UUID.randomUUID().getLeastSignificantBits(), "user", newUsername, newPassword)) {
             System.out.println("Si se pudo w");
-            File fxmlFile = new File("src/main/resources/scenes/login.fxml");
-            FXMLLoader loader = new FXMLLoader(fxmlFile.toURI().toURL());
-            Parent root = loader.load();
-            Stage stage = (Stage) createBtn.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.sizeToScene();
-            stage.show();
+            JOptionPane.showMessageDialog(null, "Usuario creado exitosamente");
         } else {
             System.out.println("No se pudo w");
         }
+    }
+    
+    
+
+    /**
+     * Cambia la escena actual a la pantalla de inicio de sesión.
+     *
+     * @throws IOException si ocurre un error al cargar el archivo FXML.
+     */
+    @FXML
+    private void switchToLogin() throws IOException {
+        File fxmlFile = new File("src/main/resources/scenes/login.fxml");
+        FXMLLoader loader = new FXMLLoader(fxmlFile.toURI().toURL());
+        Parent root = loader.load();
+        Stage stage = (Stage) BAtras.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.sizeToScene();
+        stage.show();
     }
 }
