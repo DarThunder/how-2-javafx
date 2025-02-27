@@ -3,91 +3,35 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idar.how2javafx.controllers.UserController">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idar.how2javafx.controllers.UserController">
    <children>
       <Pane prefHeight="500.0" prefWidth="706.0">
          <children>
-            <Pane layoutY="1.0" prefHeight="600.0" prefWidth="799.0" style="-fx-background-color: #FFF8D7;">
+            <Pane prefHeight="59.0" prefWidth="706.0" style="-fx-background-color: #000000;">
                <children>
-                  <Button fx:id="BLogin" layoutX="100.0" layoutY="403.0" mnemonicParsing="false" onAction="#switchToLogin" text="Login" />
-                  <Pane layoutX="303.0" layoutY="-3.0" prefHeight="59.0" prefWidth="501.0" style="-fx-background-color: #000000;">
+                  <Pane layoutX="409.0" layoutY="9.0" prefHeight="43.0" prefWidth="263.0" style="-fx-background-color: GREEN; -fx-background-radius: 10px;">
                      <children>
-                        <Label layoutX="31.0" layoutY="15.0" text="Plantas" textFill="WHITE">
-                           <font>
-                              <Font name="Arial Black" size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="328.0" layoutY="80.0" prefHeight="494.0" prefWidth="452.0" style="-fx-background-color: GRAY; -fx-background-radius: 10px;" />
-                  <Pane layoutX="3.0" prefHeight="506.0" prefWidth="310.0">
-                     <children>
-                        <ImageView fitHeight="606.0" fitWidth="310.0" layoutX="-8.0" layoutY="-6.0" pickOnBounds="true">
+                        <ImageView fitHeight="31.0" fitWidth="32.0" layoutX="9.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/lirios.jpg" />
+                              <Image url="@../images/pngwing.com.png" />
                            </image>
                         </ImageView>
-                        <Pane layoutX="21.0" layoutY="160.0" opacity="0.84" prefHeight="411.0" prefWidth="255.0" style="-fx-background-color: GREEN; -fx-background-radius: 10px;">
-                           <children>
-                              <ScrollPane layoutX="24.0" layoutY="14.0" prefHeight="329.0" prefWidth="206.0">
-                                 <content>
-                                    <TableView fx:id="tablaPlantas" prefHeight="295.0" prefWidth="206.0">
-                                        <columns>
-                                            <TableColumn fx:id="columnaId" prefWidth="50.0" text="ID" />
-                                            <TableColumn fx:id="columnaNombre" prefWidth="120.0" text="Nombre" />
-                                            <TableColumn fx:id="columnaNombreCientifico" prefWidth="150.0" text="Nombre Científico" />
-                                            <TableColumn fx:id="columnaFamilia" prefWidth="100.0" text="Familia" />
-                                            <TableColumn fx:id="columnaEpocaFloracion" prefWidth="120.0" text="Época Floración" />
-                                            <TableColumn fx:id="columnaHabitat" prefWidth="100.0" text="Hábitat" />
-                                            <TableColumn fx:id="columnaDescripcion" prefWidth="200.0" text="Descripción" />
-                                        </columns>
-                                    </TableView>
-                                 </content>
-                              </ScrollPane>
-                              <Button fx:id="BAtras" layoutX="14.0" layoutY="357.0" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="40.0" prefWidth="98.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10px;" text="Atrás">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                           </children>
-                        </Pane>
-                        <Pane layoutX="22.0" layoutY="86.0" prefHeight="51.0" prefWidth="255.0" style="-fx-background-color: GREEN; -fx-background-radius: 10px;">
-                           <children>
-                              <TextField layoutX="16.0" layoutY="10.0" prefHeight="30.0" prefWidth="155.0" />
-                              <Button layoutX="183.0" layoutY="12.0" mnemonicParsing="false" style="-fx-background-color: #FFFFFF;" text="Buscar">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                           </children>
-                        </Pane>
-                        <Button layoutX="37.0" layoutY="8.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="106.0" style="-fx-background-color: #FFFFFF; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5); -fx-background-radius: 10px;" text="Favoritos">
+                        <TextField layoutX="42.0" layoutY="8.0" />
+                        <Button layoutX="199.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px;" text="Buscar">
                            <font>
-                              <Font name="Arial Black" size="14.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Button>
-                        <Button layoutX="157.0" layoutY="9.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="106.0" style="-fx-background-color: #FFFFFF; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5); -fx-background-radius: 10px;" text="Favoritos">
-                           <font>
-                              <Font name="Arial Black" size="14.0" />
+                              <Font name="System Bold" size="12.0" />
                            </font>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -95,8 +39,40 @@
                         </Button>
                      </children>
                   </Pane>
+                  <Label layoutX="61.0" layoutY="17.0" text="Plantas" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Black" size="20.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
+            <SplitPane dividerPositions="0.3" layoutY="59.0" prefHeight="442.0" prefWidth="706.0" style="-fx-background-color: BEIGE;">
+               <items>
+                  <ListView fx:id="listaPlantas" prefWidth="200.0" style="-fx-background-color: #FFF8D7;" />
+                  <ScrollPane>
+                     <content>
+                        <VBox fx:id="detallePlanta" prefHeight="439.0" prefWidth="489.0" spacing="10" style="-fx-padding: 10;">
+                           <children>
+                              <Label fx:id="nombrePlanta" prefHeight="27.0" prefWidth="215.0" style="-fx-font-size: 18; -fx-font-weight: bold;" />
+                              <ImageView fx:id="imagenPlanta" fitHeight="124.0" fitWidth="211.0" preserveRatio="true" />
+                              <Label fx:id="descripcionPlanta" prefHeight="18.0" prefWidth="215.0" wrapText="true" />
+                              <TextArea prefHeight="329.0" prefWidth="469.0" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </items>
+            </SplitPane>
+            <Button fx:id="BAtras" layoutX="17.0" layoutY="455.0" mnemonicParsing="false" onAction="#switchToLogin" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Atrás">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="BLogin" layoutX="129.0" layoutY="455.0" mnemonicParsing="false" onAction="#switchToLogin" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Login">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </children>
