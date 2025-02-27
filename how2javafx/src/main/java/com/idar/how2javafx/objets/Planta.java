@@ -19,9 +19,10 @@ public class Planta {
     private final StringProperty epocaFloracion;
     private final StringProperty habitat;
     private final StringProperty descripcion;
+    private final StringProperty imagenRuta;
     private final BooleanProperty eliminada;
 
-    public Planta(int id, String nombre, String nombreCientifico, String familia, String epocaFloracion, String habitat, String descripcion, boolean eliminada) {
+    public Planta(int id, String nombre, String nombreCientifico, String familia, String epocaFloracion, String habitat, String descripcion, String imagenRuta, boolean eliminada) {
         this.id = new SimpleIntegerProperty(id);
         this.nombre = new SimpleStringProperty(nombre);
         this.nombreCientifico = new SimpleStringProperty(nombreCientifico);
@@ -29,6 +30,7 @@ public class Planta {
         this.epocaFloracion = new SimpleStringProperty(epocaFloracion);
         this.habitat = new SimpleStringProperty(habitat);
         this.descripcion = new SimpleStringProperty(descripcion);
+        this.imagenRuta = new SimpleStringProperty(imagenRuta);
         this.eliminada = new SimpleBooleanProperty(eliminada);
     }
 
@@ -53,6 +55,9 @@ public class Planta {
 
     public String getDescripcion() { return descripcion.get(); }
     public StringProperty descripcionProperty() { return descripcion; }
+    
+    public String getImagenRuta() { return imagenRuta.get(); }
+    public StringProperty imagenRutaProperty() { return imagenRuta; }
 
     public boolean isEliminada() { return eliminada.get(); } // Getter para eliminada
     public BooleanProperty eliminadaProperty() { return eliminada; } // Propiedad para eliminada

@@ -153,12 +153,12 @@ public class AdminController implements Initializable {
             String epocaFloracion = planta[4];
             String habitat = planta[5];
             String descripcion = planta[6];
-
+            String imagenRuta = planta[7];
             // Convertir el valor "0" o "1" a boolean
-            boolean isDeleted = planta[7].equals("1"); // "1" -> true, "0" -> false
+            boolean isDeleted = planta[8].equals("1"); // "1" -> true, "0" -> false
 
             // Agregar la planta a la tabla
-            TV1.getItems().add(new Planta(idPlanta, nombre, nombreCientifico, familia, epocaFloracion, habitat, descripcion, isDeleted));
+            TV1.getItems().add(new Planta(idPlanta, nombre, nombreCientifico, familia, epocaFloracion, habitat, descripcion, imagenRuta, isDeleted));
         }
     } catch (SQLException e) {
         System.err.println("Error al cargar datos: " + e.getMessage());
