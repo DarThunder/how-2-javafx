@@ -424,7 +424,7 @@ public class SqlLib {
     
     public List<String[]> cargarUsuariosDesdeBD() throws SQLException {
         List<String[]> usuarios = new ArrayList<>();
-        String query = "SELECT id_usuario, nombre, contrasena, rol FROM usuario";
+        String query = "SELECT id_usuario, nombre, contrasena, rol FROM usuario WHERE is_deleted = 0";
 
         // Ejemplo de conexión y consulta a la base de datos
         try (PreparedStatement statement = connection.prepareStatement(query);
@@ -444,31 +444,53 @@ public class SqlLib {
         return usuarios;
     }
 
+    /**
+     * Carga los datos de las plantas desde la base de datos.
+     * Este método ejecuta una consulta SQL para obtener todas las plantas que no han sido marcadas como eliminadas
+     * (es decir, donde `is_deleted = 0`). Luego, almacena los datos de cada planta en un arreglo de Strings
+     * y los agrega a una lista.
+     *
+     * @return Una lista de arreglos de Strings, donde cada arreglo representa una planta con los siguientes campos:
+     *         - id_planta: Identificador único de la planta.
+     *         - nombre: Nombre común de la planta.
+     *         - nombre_cientifico: Nombre científico de la planta.
+     *         - familia: Familia a la que pertenece la planta.
+     *         - epoca_floracion: Época de floración de la planta.
+     *         - habitat: Hábitat natural de la planta.
+     *         - descripcion: Descripción de la planta.
+     *         - imagen_ruta: Ruta de la imagen asociada a la planta.
+     *         - is_deleted: Indica si la planta ha sido marcada como eliminada (0 = no eliminada, 1 = eliminada).
+     */
     public List<String[]> cargarDatosDesdeBD() {
         List<String[]> plantas = new ArrayList<>();
-        String query = "SELECT id_planta, nombre, nombre_cientifico, familia, epoca_floracion, habitat, descripcion, is_deleted FROM planta WHERE is_deleted = 0";
+        String query = "SELECT id_planta, nombre, nombre_cientifico, familia, epoca_floracion, habitat, descripcion, imagen_ruta, is_deleted FROM planta WHERE is_deleted = 0";
 
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
 
+            // Recorre cada fila del resultado de la consulta
             while (resultSet.next()) {
-                String[] planta = new String[8];
-                planta[0] = resultSet.getString("id_planta");
-                planta[1] = resultSet.getString("nombre");
-                planta[2] = resultSet.getString("nombre_cientifico");
-                planta[3] = resultSet.getString("familia");
-                planta[4] = resultSet.getString("epoca_floracion");
-                planta[5] = resultSet.getString("habitat");
-                planta[6] = resultSet.getString("descripcion");
-                planta[7] = resultSet.getString("is_deleted");
+                String[] planta = new String[9];
+                planta[0] = resultSet.getString("id_planta"); // ID de la planta
+                planta[1] = resultSet.getString("nombre"); // Nombre común
+                planta[2] = resultSet.getString("nombre_cientifico"); // Nombre científico
+                planta[3] = resultSet.getString("familia"); // Familia
+                planta[4] = resultSet.getString("epoca_floracion"); // Época de floración
+                planta[5] = resultSet.getString("habitat"); // Hábitat
+                planta[6] = resultSet.getString("descripcion"); // Descripción
+                planta[7] = resultSet.getString("imagen_ruta"); // Ruta de la imagen
+                planta[8] = resultSet.getString("is_deleted"); // Estado de eliminación
 
+                // Agrega la planta a la lista
                 plantas.add(planta);
             }
         } catch (SQLException e) {
+            // Registra el error en la consola
             System.err.println("Error al cargar datos: " + e.getMessage());
         }
+
+        // Retorna la lista de plantas
         return plantas;
-    
-}
+    }
 
 }

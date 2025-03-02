@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import lib.SqlLib;
 import com.idar.how2javafx.controllers.LoginController;
 import java.io.File;
+import static javafx.application.Application.launch;
 
 /**
  * Clase principal de la aplicación JavaFX.

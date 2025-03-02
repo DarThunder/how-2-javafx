@@ -1,3 +1,11 @@
+/**
+ * Controlador para la vista de usuario en la aplicación.
+ * Este controlador maneja la interacción del usuario con la lista de plantas,
+ * mostrando los detalles de la planta seleccionada y permitiendo la navegación
+ * de regreso a la pantalla de inicio de sesión.
+ * 
+ * @author dard
+ */
 package com.idar.how2javafx.controllers;
 
 import com.idar.how2javafx.objets.Planta;
@@ -21,36 +29,60 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.TextArea;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class UserController implements Initializable {
 
     @FXML
-    private ListView<String> listaPlantas; // Lista de nombres de plantas
+    private ListView<String> listaPlantas;
 
     @FXML
-    private Label nombrePlanta; // Label para el nombre de la planta seleccionada
+    private Label nombrePlanta;
 
     @FXML
-    private ImageView imagenPlanta; // ImageView para la imagen de la planta
+    private TextFlow nombreCientificoPlanta;
 
     @FXML
-    private Label descripcionPlanta; // Label para la descripción de la planta
+    private TextFlow familiaPlanta;
 
     @FXML
-    private Button BAtras; // Botón para volver atrás
+    private TextFlow epocaFloracionPlanta;
 
-    private ObservableList<Planta> plantasObservableList; // Lista observable de plantas
+    @FXML
+    private TextFlow habitatPlanta;
 
+    @FXML
+    private TextFlow descripcionPlanta;
+
+    @FXML
+    private ImageView imagenPlanta;
+
+    @FXML
+    private TextArea descripcionCompletaPlanta;
+
+    @FXML
+    private Button BAtras;
+
+    private ObservableList<Planta> plantasObservableList;
+
+    /**
+     * Inicializa el controlador después de que se haya cargado su elemento raíz.
+     * 
+     * @param url La ubicación utilizada para resolver rutas relativas para el objeto raíz.
+     * @param resourceBundle Los recursos utilizados para localizar el objeto raíz.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            // Cargar los datos desde la base de datos
             cargarDatos();
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // Configurar el listener para la selección de la lista
         listaPlantas.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 mostrarDetallePlanta(newValue);
@@ -58,16 +90,17 @@ public class UserController implements Initializable {
         });
     }
 
+    /**
+     * Carga los datos de las plantas desde la base de datos y los muestra en la lista.
+     * 
+     * @throws SQLException Si ocurre un error al acceder a la base de datos.
+     */
     private void cargarDatos() throws SQLException {
         plantasObservableList = FXCollections.observableArrayList();
 
-        // Obtener la instancia Singleton de SqlLib
-        SqlLib sqlLib = SqlLib.getInstance("jdbc:mysql://localhost:3306/db", "root", "contraseña");
-
-        // Cargar los datos desde la base de datos
+        SqlLib sqlLib = SqlLib.getInstance("", "", "");
         List<String[]> plantas = sqlLib.cargarDatosDesdeBD();
 
-        // Convertir los datos en objetos Planta y agregar los nombres a la lista
         for (String[] planta : plantas) {
             int id = Integer.parseInt(planta[0]);
             String nombre = planta[1];
@@ -76,41 +109,84 @@ public class UserController implements Initializable {
             String epocaFloracion = planta[4];
             String habitat = planta[5];
             String descripcion = planta[6];
-            String imagenRuta = planta [7];
-            boolean eliminada = Boolean.parseBoolean(planta[7]);
+            String imagenRuta = planta[7];
+            boolean eliminada = Boolean.parseBoolean(planta[8]);
 
             plantasObservableList.add(new Planta(id, nombre, nombreCientifico, familia, epocaFloracion, habitat, descripcion, imagenRuta, eliminada));
-            listaPlantas.getItems().add(nombre); // Agregar el nombre de la planta a la lista
+            listaPlantas.getItems().add(nombre);
         }
     }
 
+    /**
+     * Muestra los detalles de la planta seleccionada en la interfaz de usuario.
+     * 
+     * @param nombrePlantaSeleccionada El nombre de la planta seleccionada.
+     */
     private void mostrarDetallePlanta(String nombrePlantaSeleccionada) {
-        // Buscar la planta seleccionada en la lista observable
         Planta plantaSeleccionada = plantasObservableList.stream()
                 .filter(planta -> planta.getNombre().equals(nombrePlantaSeleccionada))
                 .findFirst()
                 .orElse(null);
 
         if (plantaSeleccionada != null) {
-            // Actualizar la información detallada
             nombrePlanta.setText(plantaSeleccionada.getNombre());
-            descripcionPlanta.setText(plantaSeleccionada.getDescripcion());
 
-            // Cargar la imagen de la planta (ajusta la ruta según tu estructura de archivos)
-            String imagenUrl = getClass().getResource("/images/" + plantaSeleccionada.getNombre().toLowerCase() + ".jpg").toExternalForm();
-            imagenPlanta.setImage(new Image(imagenUrl));
+            // Configurar el TextFlow para "Nombre científico"
+            Text nombreCientificoLabel = new Text("Nombre científico: ");
+            nombreCientificoLabel.setFont(Font.font("System", FontWeight.BOLD, 12));
+            Text nombreCientificoValue = new Text(plantaSeleccionada.getNombreCientifico());
+            nombreCientificoPlanta.getChildren().setAll(nombreCientificoLabel, nombreCientificoValue);
+
+            // Configurar el TextFlow para "Familia"
+            Text familiaLabel = new Text("Familia: ");
+            familiaLabel.setFont(Font.font("System", FontWeight.BOLD, 12));
+            Text familiaValue = new Text(plantaSeleccionada.getFamilia());
+            familiaPlanta.getChildren().setAll(familiaLabel, familiaValue);
+
+            // Configurar el TextFlow para "Época de floración"
+            Text epocaFloracionLabel = new Text("Época de floración: ");
+            epocaFloracionLabel.setFont(Font.font("System", FontWeight.BOLD, 12));
+            Text epocaFloracionValue = new Text(plantaSeleccionada.getEpocaFloracion());
+            epocaFloracionPlanta.getChildren().setAll(epocaFloracionLabel, epocaFloracionValue);
+
+            // Configurar el TextFlow para "Hábitat"
+            Text habitatLabel = new Text("Hábitat: ");
+            habitatLabel.setFont(Font.font("System", FontWeight.BOLD, 12));
+            Text habitatValue = new Text(plantaSeleccionada.getHabitat());
+            habitatPlanta.getChildren().setAll(habitatLabel, habitatValue);
+
+            // Configurar el TextFlow para "Descripción"
+            Text descripcionLabel = new Text("Descripción: ");
+            descripcionLabel.setFont(Font.font("System", FontWeight.BOLD, 12));
+            descripcionPlanta.getChildren().setAll(descripcionLabel);
+
+            // Cargar la imagen de la planta desde la ruta relativa
+            String imagenRuta = plantaSeleccionada.getImagenRuta();
+            if (imagenRuta != null && !imagenRuta.isEmpty()) {
+                try {
+                    Image imagen = new Image(getClass().getResourceAsStream(imagenRuta));
+                    imagenPlanta.setImage(imagen);
+                } catch (Exception e) {
+                    System.err.println("Error al cargar la imagen: " + e.getMessage());
+                    imagenPlanta.setImage(null);
+                }
+            } else {
+                imagenPlanta.setImage(null);
+            }
+
+            // Mostrar la descripción completa en el TextArea
+            descripcionCompletaPlanta.setText(plantaSeleccionada.getDescripcion());
         }
     }
 
+    /**
+     * Cambia la escena actual a la pantalla de inicio de sesión.
+     */
     @FXML
     private void switchToLogin() {
-        // Lógica para cambiar a la escena de inicio de sesión
         try {
-            // Cargar la nueva escena
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/login.fxml"));
             Parent root = loader.load();
-
-            // Obtener la escena actual y cambiarla
             Scene scene = listaPlantas.getScene();
             scene.setRoot(root);
         } catch (IOException e) {

@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
 <AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.idar.how2javafx.controllers.UserController">
    <children>
@@ -50,25 +51,24 @@
                <items>
                   <ListView fx:id="listaPlantas" prefWidth="200.0" style="-fx-background-color: #FFF8D7;" />
                   <ScrollPane>
-                     <content>
-                        <VBox fx:id="detallePlanta" prefHeight="439.0" prefWidth="489.0" spacing="10" style="-fx-padding: 10;">
-                           <children>
-                              <Label fx:id="nombrePlanta" prefHeight="27.0" prefWidth="215.0" style="-fx-font-size: 18; -fx-font-weight: bold;" />
-                              <ImageView fx:id="imagenPlanta" fitHeight="124.0" fitWidth="211.0" preserveRatio="true" />
-                              <Label fx:id="descripcionPlanta" prefHeight="18.0" prefWidth="215.0" wrapText="true" />
-                              <TextArea prefHeight="329.0" prefWidth="469.0" />
-                           </children>
-                        </VBox>
-                     </content>
-                  </ScrollPane>
+                    <content>
+                       <VBox fx:id="detallePlanta" prefHeight="439.0" prefWidth="489.0" spacing="10" style="-fx-padding: 10;">
+                          <children>
+                             <Label fx:id="nombrePlanta" prefHeight="27.0" prefWidth="215.0" style="-fx-font-size: 18; -fx-font-weight: bold;" />
+                             <TextFlow fx:id="nombreCientificoPlanta" />
+                             <TextFlow fx:id="familiaPlanta" />
+                             <TextFlow fx:id="epocaFloracionPlanta" />
+                             <TextFlow fx:id="habitatPlanta" />
+                             <ImageView fx:id="imagenPlanta" fitHeight="124.0" fitWidth="211.0" preserveRatio="true" />
+                             <TextFlow fx:id="descripcionPlanta" />
+                             <TextArea fx:id="descripcionCompletaPlanta" prefHeight="329.0" prefWidth="469.0" editable="false" />
+                          </children>
+                       </VBox>
+                    </content>
+                 </ScrollPane>
                </items>
             </SplitPane>
             <Button fx:id="BAtras" layoutX="17.0" layoutY="455.0" mnemonicParsing="false" onAction="#switchToLogin" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Atrás">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Button>
-            <Button fx:id="BLogin" layoutX="129.0" layoutY="455.0" mnemonicParsing="false" onAction="#switchToLogin" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Login">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
