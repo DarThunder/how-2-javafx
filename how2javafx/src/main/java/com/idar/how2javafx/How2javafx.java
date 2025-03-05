@@ -47,11 +47,6 @@ public class How2javafx {
      *
      * @return Un array de Strings con la URL, usuario y contraseña de la base de datos.
      */
-    /**
-     * Carga las credenciales de la base de datos desde un archivo de propiedades.
-     *
-     * @return Un array de Strings con la URL, usuario y contraseña de la base de datos.
-     */
     private static String[] getDBCredentials() {
         Properties properties = new Properties();
         String[] credentials = new String[3];

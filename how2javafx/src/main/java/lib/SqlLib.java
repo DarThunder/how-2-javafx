@@ -203,7 +203,7 @@ public class SqlLib {
         try (PreparedStatement statement = connection.prepareCall(query)) {
             statement.setInt(1, id);
             statement.setString(2, hashedPassword);
-            statement.execute();  
+            statement.execute();
             return true;
         } catch (SQLException e) {
             return false;
@@ -236,19 +236,19 @@ public class SqlLib {
     /**
      * Agrega una nueva planta a la base de datos.
      *
-     * @param id El ID de la planta.
      * @param plantName El nombre de la planta.
      * @param scientificPlantName El nombre científico de la planta.
      * @param plantFamily La familia de la planta.
      * @param floweringSeason La temporada de floración de la planta.
      * @param habitat El hábitat de la planta.
      * @param description La descripción de la planta.
+     * @param imageUrl La URL de la imagen de la planta.
      * @return true si la planta se agregó correctamente, false en caso
      * contrario.
      * @throws SQLException Si ocurre un error al ejecutar la consulta.
      */
-    public boolean addPlant(String plantName, String scientificPlantName, String plantFamily, String floweringSeason, String habitat, String description) throws SQLException {
-        String query = "{ CALL AgregarPlanta(?, ?, ?, ?, ?, ?) }";
+    public boolean addPlant(String plantName, String scientificPlantName, String plantFamily, String floweringSeason, String habitat, String description, String imageUrl) throws SQLException {
+        String query = "{ CALL AgregarPlanta(?, ?, ?, ?, ?, ?, ?) }";
         try (PreparedStatement statement = connection.prepareCall(query)) {
             statement.setString(1, plantName);
             statement.setString(2, scientificPlantName);
@@ -256,8 +256,9 @@ public class SqlLib {
             statement.setString(4, floweringSeason);
             statement.setString(5, habitat);
             statement.setString(6, description);
-            statement.execute();
+            statement.setString(7, imageUrl);  // Aquí se agrega la URL de la imagen
 
+            statement.execute();
             return true;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -411,6 +412,27 @@ public class SqlLib {
     }
 
     /**
+     * Cambia la imagen de una planta existente.
+     *
+     * @param id El ID de la planta.
+     * @param nuevaRutaImagen La nueva descripción de la planta.
+     * @return true si la descripción se cambió correctamente, false en caso
+     * contrario.
+     */
+    public boolean setImage(int id, String nuevaRutaImagen) {
+        String query = "{ CALL CambiarImagen(?, ?) }";
+        try (PreparedStatement statement = connection.prepareCall(query)) {
+            statement.setInt(1, id);
+            statement.setString(2, nuevaRutaImagen);
+            statement.execute();
+
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    /**
      * Cierra la conexión con la base de datos.
      *
      * @throws SQLException Si ocurre un error al cerrar la conexión.
@@ -421,15 +443,26 @@ public class SqlLib {
             System.out.println("Conexión cerrada.");
         }
     }
-    
+
+    /**
+     * Carga los usuarios desde la base de datos.
+     *
+     * Este método realiza una consulta a la base de datos para obtener todos
+     * los usuarios que no están marcados como eliminados (is_deleted = 0).
+     * Recupera el id, nombre, contraseña y rol de cada usuario y los almacena
+     * en una lista de arreglos de cadenas.
+     *
+     * @return Una lista de arreglos de cadenas donde cada arreglo contiene los
+     * detalles de un usuario: id_usuario, nombre, contrasena y rol.
+     * @throws SQLException Si ocurre un error al acceder o consultar la base de
+     * datos.
+     */
     public List<String[]> cargarUsuariosDesdeBD() throws SQLException {
         List<String[]> usuarios = new ArrayList<>();
         String query = "SELECT id_usuario, nombre, contrasena, rol FROM usuario WHERE is_deleted = 0";
 
         // Ejemplo de conexión y consulta a la base de datos
-        try (PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet rs = statement.executeQuery())
-             {
+        try (PreparedStatement statement = connection.prepareStatement(query); ResultSet rs = statement.executeQuery()) {
 
             while (rs.next()) {
                 String[] usuario = new String[4];
@@ -445,28 +478,27 @@ public class SqlLib {
     }
 
     /**
-     * Carga los datos de las plantas desde la base de datos.
-     * Este método ejecuta una consulta SQL para obtener todas las plantas que no han sido marcadas como eliminadas
-     * (es decir, donde `is_deleted = 0`). Luego, almacena los datos de cada planta en un arreglo de Strings
-     * y los agrega a una lista.
+     * Carga los datos de las plantas desde la base de datos. Este método
+     * ejecuta una consulta SQL para obtener todas las plantas que no han sido
+     * marcadas como eliminadas (es decir, donde `is_deleted = 0`). Luego,
+     * almacena los datos de cada planta en un arreglo de Strings y los agrega a
+     * una lista.
      *
-     * @return Una lista de arreglos de Strings, donde cada arreglo representa una planta con los siguientes campos:
-     *         - id_planta: Identificador único de la planta.
-     *         - nombre: Nombre común de la planta.
-     *         - nombre_cientifico: Nombre científico de la planta.
-     *         - familia: Familia a la que pertenece la planta.
-     *         - epoca_floracion: Época de floración de la planta.
-     *         - habitat: Hábitat natural de la planta.
-     *         - descripcion: Descripción de la planta.
-     *         - imagen_ruta: Ruta de la imagen asociada a la planta.
-     *         - is_deleted: Indica si la planta ha sido marcada como eliminada (0 = no eliminada, 1 = eliminada).
+     * @return Una lista de arreglos de Strings, donde cada arreglo representa
+     * una planta con los siguientes campos: - id_planta: Identificador único de
+     * la planta. - nombre: Nombre común de la planta. - nombre_cientifico:
+     * Nombre científico de la planta. - familia: Familia a la que pertenece la
+     * planta. - epoca_floracion: Época de floración de la planta. - habitat:
+     * Hábitat natural de la planta. - descripcion: Descripción de la planta. -
+     * imagen_ruta: Ruta de la imagen asociada a la planta. - is_deleted: Indica
+     * si la planta ha sido marcada como eliminada (0 = no eliminada, 1 =
+     * eliminada).
      */
     public List<String[]> cargarDatosDesdeBD() {
         List<String[]> plantas = new ArrayList<>();
         String query = "SELECT id_planta, nombre, nombre_cientifico, familia, epoca_floracion, habitat, descripcion, imagen_ruta, is_deleted FROM planta WHERE is_deleted = 0";
 
-        try (PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
+        try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
 
             // Recorre cada fila del resultado de la consulta
             while (resultSet.next()) {

@@ -28,7 +28,7 @@
                   <Font name="Arial Black" size="18.0" />
                </font>
             </Label>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#showPanel1" style="-fx-background-color: #FFFFFF; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5); -fx-background-radius: 10px;" text="Agregar" textAlignment="CENTER" textFill="#34401a">
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#mostrarPanelAgregar" style="-fx-background-color: #FFFFFF; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5); -fx-background-radius: 10px;" text="Agregar" textAlignment="CENTER" textFill="#34401a">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -39,7 +39,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button mnemonicParsing="false" onAction="#showPanel2" style="-fx-background-color: #FFFFFF; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5); -fx-background-radius: 10px;" text="Eliminar" textFill="#34401a">
+            <Button mnemonicParsing="false" onAction="#mostrarPanelEliminar" style="-fx-background-color: #FFFFFF; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5); -fx-background-radius: 10px;" text="Eliminar" textFill="#34401a">
                <VBox.margin>
                   <Insets left="25.0" right="25.0" top="25.0" />
                </VBox.margin>
@@ -47,7 +47,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#showPanel3" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #FFFFFF; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5); -fx-background-radius: 10px;" text="Editar" textFill="#34401a">
+            <Button mnemonicParsing="false" onAction="#mostrarPanelEditar" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #FFFFFF; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5); -fx-background-radius: 10px;" text="Editar" textFill="#34401a">
                <VBox.margin>
                   <Insets left="25.0" right="25.0" top="25.0" />
                </VBox.margin>
@@ -77,59 +77,65 @@
    <center>
       <StackPane fx:id="SP1" prefHeight="600.0" prefWidth="500.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="panel1" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="panel1" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <ImageView fitHeight="600.0" fitWidth="300.0" opacity="0.25" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/lirios.jpg" />
                      </image>
                   </ImageView>
-                  <Label layoutX="53.0" layoutY="89.0" text="Nombre:">
+                  <Label layoutX="53.0" layoutY="71.0" text="Nombre:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="plantNameField" layoutX="50.0" layoutY="115.0" prefHeight="26.0" prefWidth="214.0" />
-                  <Label layoutX="53.0" layoutY="159.0" text="Nombre Científico:">
+                  <TextField fx:id="plantNameField" layoutX="50.0" layoutY="97.0" prefHeight="26.0" prefWidth="214.0" />
+                  <Label layoutX="53.0" layoutY="141.0" text="Nombre Científico:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="plantScientificNameField" layoutX="50.0" layoutY="185.0" prefHeight="26.0" prefWidth="214.0" />
-                  <Label layoutX="50.0" layoutY="246.0" text="Familia:">
+                  <TextField fx:id="plantScientificNameField" layoutX="50.0" layoutY="167.0" prefHeight="26.0" prefWidth="214.0" />
+                  <Label layoutX="52.0" layoutY="202.0" text="Familia:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="plantFamilyField" layoutX="50.0" layoutY="272.0" prefHeight="26.0" prefWidth="214.0" />
-                  <Label layoutX="50.0" layoutY="324.0" text="Época de floración:">
+                  <TextField fx:id="plantFamilyField" layoutX="52.0" layoutY="228.0" prefHeight="26.0" prefWidth="214.0" />
+                  <Label layoutX="52.0" layoutY="280.0" text="Época de floración:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="plantFlowerinSeasonField" layoutX="50.0" layoutY="350.0" prefHeight="26.0" prefWidth="214.0" />
-                  <Label layoutX="50.0" layoutY="408.0" text="Hábitat:">
+                  <TextField fx:id="plantFlowerinSeasonField" layoutX="52.0" layoutY="306.0" prefHeight="26.0" prefWidth="214.0" />
+                  <Label layoutX="52.0" layoutY="364.0" text="Hábitat:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="plantHabitatField" layoutX="50.0" layoutY="434.0" prefHeight="26.0" prefWidth="214.0" />
-                  <Label layoutX="53.0" layoutY="485.0" text="Descripción:">
+                  <TextField fx:id="plantHabitatField" layoutX="52.0" layoutY="390.0" prefHeight="26.0" prefWidth="214.0" />
+                  <Label layoutX="55.0" layoutY="441.0" text="Descripción:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="plantDescriptionField" layoutX="50.0" layoutY="511.0" prefHeight="26.0" prefWidth="214.0" />
-                  <Label layoutX="66.0" layoutY="43.0" text="AGREGAR PLANTA" textFill="#34401a">
+                  <TextField fx:id="plantDescriptionField" layoutX="52.0" layoutY="467.0" prefHeight="26.0" prefWidth="214.0" />
+                  <Label layoutX="66.0" layoutY="25.0" text="AGREGAR PLANTA" textFill="#34401a">
                      <font>
                         <Font name="Arial Black" size="18.0" />
                      </font>
                   </Label>
-                  <Button layoutX="181.0" layoutY="555.0" mnemonicParsing="false" onAction="#addPlant" prefHeight="30.0" prefWidth="85.0" text="Agregar">
+                  <Button fx:id="BAgregar" layoutX="181.0" layoutY="555.0" mnemonicParsing="false" onAction="#addPlant" prefHeight="30.0" prefWidth="85.0" text="Agregar">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Button>
+                  <Label layoutX="55.0" layoutY="515.0" text="Imagen: ">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="bSeleccionar" layoutX="124.0" layoutY="515.0" mnemonicParsing="false" onAction="#addImage" prefHeight="26.0" prefWidth="144.0" text="Seleccionar" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="panel3" prefHeight="600.0" prefWidth="261.0" visible="false">
@@ -139,77 +145,88 @@
                         <Image url="@../images/lirios.jpg" />
                      </image>
                   </ImageView>
-                  <Label layoutX="46.0" layoutY="35.0" text="MODIFICAR PLANTA" textFill="#34401a">
+                  <Label layoutX="43.0" layoutY="14.0" text="MODIFICAR PLANTA" textFill="#34401a">
                      <font>
                         <Font name="Arial Black" size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="33.0" layoutY="174.0" text="Nombre:">
+                  <Label layoutX="39.0" layoutY="116.0" text="Nombre:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="34.0" layoutY="238.0" text="Nombre Científico:">
+                  <Label layoutX="40.0" layoutY="180.0" text="Nombre Científico:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="32.0" layoutY="300.0" text="Familia:">
+                  <Label layoutX="38.0" layoutY="242.0" text="Familia:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="32.0" layoutY="379.0" text="Época de Floración:">
+                  <Label layoutX="38.0" layoutY="321.0" text="Época de Floración:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="31.0" layoutY="447.0" text="Hábitat:">
+                  <Label layoutX="37.0" layoutY="389.0" text="Hábitat:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="nuevoNombre" layoutX="33.0" layoutY="200.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
-                  <Button fx:id="modificarNombre" layoutX="193.0" layoutY="200.0" mnemonicParsing="false" onAction="#cambiarNombre" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Modificar">
+                  <TextField fx:id="nuevoNombre" layoutX="39.0" layoutY="142.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
+                  <Button fx:id="modificarNombre" layoutX="199.0" layoutY="142.0" mnemonicParsing="false" onAction="#cambiarNombre" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Modificar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <TextField fx:id="nuevoNombreC" layoutX="33.0" layoutY="264.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
-                  <Button fx:id="modificarNombreC" layoutX="195.0" layoutY="264.0" mnemonicParsing="false" onAction="#cambiarNombreC" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Modificar">
+                  <TextField fx:id="nuevoNombreC" layoutX="39.0" layoutY="206.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
+                  <Button fx:id="modificarNombreC" layoutX="201.0" layoutY="206.0" mnemonicParsing="false" onAction="#cambiarNombreC" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Modificar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <TextField fx:id="nuevaFamilia" layoutX="31.0" layoutY="326.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
-                  <Button fx:id="modificarFamilia" layoutX="195.0" layoutY="326.0" mnemonicParsing="false" onAction="#cambiarFamilia" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Modificar">
+                  <TextField fx:id="nuevaFamilia" layoutX="37.0" layoutY="268.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
+                  <Button fx:id="modificarFamilia" layoutX="201.0" layoutY="268.0" mnemonicParsing="false" onAction="#cambiarFamilia" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Modificar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <TextField fx:id="nuevaEpocaFloracion" layoutX="30.0" layoutY="405.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
-                  <Button layoutX="193.0" layoutY="405.0" mnemonicParsing="false" onAction="#cambiarEpocaFloracion" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Modificar">
+                  <TextField fx:id="nuevaEpocaFloracion" layoutX="36.0" layoutY="347.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
+                  <Button layoutX="199.0" layoutY="347.0" mnemonicParsing="false" onAction="#cambiarEpocaFloracion" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Modificar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <TextField fx:id="nuevoHabitat" layoutX="31.0" layoutY="473.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
-                  <Button fx:id="modificarHabitat" layoutX="193.0" layoutY="473.0" mnemonicParsing="false" onAction="#cambiarHabitat" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Modificar">
+                  <TextField fx:id="nuevoHabitat" layoutX="37.0" layoutY="415.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
+                  <Button fx:id="modificarHabitat" layoutX="199.0" layoutY="415.0" mnemonicParsing="false" onAction="#cambiarHabitat" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Modificar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <Label layoutX="31.0" layoutY="518.0" text="Descripción:">
+                  <Label layoutX="37.0" layoutY="460.0" text="Descripción:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="nuevaDescripcion" layoutX="30.0" layoutY="544.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
-                  <Button fx:id="modificarDescripcion" layoutX="193.0" layoutY="544.0" mnemonicParsing="false" onAction="#cambiarDescripcion" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Modificar">
+                  <TextField fx:id="nuevaDescripcion" layoutX="36.0" layoutY="486.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
+                  <Button fx:id="modificarDescripcion" layoutX="199.0" layoutY="486.0" mnemonicParsing="false" onAction="#cambiarDescripcion" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Modificar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <Label layoutX="27.0" layoutY="106.0" text="Ingresa el ID:">
+                  <Label layoutX="30.0" layoutY="69.0" text="Ingresa el ID:">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="edit" layoutX="135.0" layoutY="105.0" prefHeight="26.0" prefWidth="119.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
+                  <TextField fx:id="edit" layoutX="138.0" layoutY="68.0" prefHeight="26.0" prefWidth="119.0" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" />
+                  <Label layoutX="37.0" layoutY="536.0" text="Imagen:">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="modificarImagen" layoutX="199.0" layoutY="536.0" mnemonicParsing="false" onAction="#cambiarImagen" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Modificar">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="BotonMImagen" layoutX="103.0" layoutY="536.0" mnemonicParsing="false" onAction="#addImage" prefHeight="31.0" prefWidth="83.0" text="Seleccionar" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="panel2" prefHeight="600.0" prefWidth="162.0" visible="false">
@@ -243,27 +260,31 @@
    <right>
       <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="322.0" prefWidth="556.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">
          <content>
-            <TableView fx:id="TV1" maxWidth="-Infinity" prefHeight="451.0" prefWidth="554.0" tableMenuButtonVisible="true">
-               <columns>
-                  <TableColumn fx:id="columnaId" prefWidth="75.0" text="ID" />
-                  <TableColumn fx:id="columnaNombre" prefWidth="100.0" text="Nombre" />
-                  <TableColumn fx:id="columnaNombreCientifico" prefWidth="150.0" text="Nombre Científico" />
-                  <TableColumn fx:id="columnaFamilia" prefWidth="100.0" text="Familia" />
-                  <TableColumn fx:id="columnaEpocaFloracion" prefWidth="120.0" text="Época Floración" />
-                  <TableColumn fx:id="columnaHabitat" prefWidth="100.0" text="Hábitat" />
-                  <TableColumn fx:id="columnaDescripcion" prefWidth="200.0" text="Descripción" />
-                  <TableColumn fx:id="columnaEstatus" prefWidth="100.0" text="Estatus" />
-               </columns>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <padding>
-                  <Insets left="20.0" right="20.0" />
-               </padding>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </TableView>
+            <ScrollPane>
+               <content>
+                  <TableView fx:id="TV1" maxWidth="-Infinity" prefHeight="600.0" prefWidth="554.0" tableMenuButtonVisible="true">
+                     <columns>
+                        <TableColumn fx:id="columnaId" prefWidth="75.0" text="ID" />
+                        <TableColumn fx:id="columnaNombre" prefWidth="100.0" text="Nombre" />
+                        <TableColumn fx:id="columnaNombreCientifico" prefWidth="150.0" text="Nombre Científico" />
+                        <TableColumn fx:id="columnaFamilia" prefWidth="100.0" text="Familia" />
+                        <TableColumn fx:id="columnaEpocaFloracion" prefWidth="120.0" text="Época Floración" />
+                        <TableColumn fx:id="columnaHabitat" prefWidth="100.0" text="Hábitat" />
+                        <TableColumn fx:id="columnaDescripcion" prefWidth="200.0" text="Descripción" />
+                        <TableColumn fx:id="columnaEstatus" prefWidth="100.0" text="Estatus" />
+                     </columns>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </content>
+            </ScrollPane>
          </content>
       </ScrollPane>
    </right>

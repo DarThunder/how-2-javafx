@@ -33,9 +33,10 @@ import javax.swing.JOptionPane;
 import lib.SqlLib;
 
 /**
- * FXML Controller class
- *
- * @author laura
+ * Controlador de la vista de administración de usuarios. Esta clase maneja la
+ * creación, modificación, eliminación y visualización de usuarios en el
+ * sistema. Además, proporciona la interacción con la base de datos para
+ * almacenar y recuperar la información.
  */
 public class AdminUserEditController implements Initializable {
 
@@ -94,7 +95,7 @@ public class AdminUserEditController implements Initializable {
     @FXML
     private TableView TV1;
 
-     @FXML
+    @FXML
     private TableColumn<Usuario, Integer> columnaId;
     @FXML
     private TableColumn<Usuario, String> columnaNombre;
@@ -105,31 +106,45 @@ public class AdminUserEditController implements Initializable {
 
     private SqlLib db;
 
+    /**
+     * Inicializa los componentes de la interfaz y la conexión a la base de
+     * datos. Configura las columnas de la tabla para mostrar los datos de los
+     * usuarios y carga los datos de la base de datos.
+     *
+     * @param url La URL de la vista cargada.
+     * @param resourceBundle El conjunto de recursos para internacionalización.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            setDB(); // Inicializar la conexión a la base de datos
+            setDB(); 
         } catch (SQLException e) {
             System.err.println("Error al conectar a la base de datos: " + e.getMessage());
         }
-
-        // Vincular las columnas a las propiedades de la clase Usuario
         columnaId.setCellValueFactory(new PropertyValueFactory<>("id"));
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         columnaContraseña.setCellValueFactory(new PropertyValueFactory<>("contraseña"));
         columnaRol.setCellValueFactory(new PropertyValueFactory<>("rol"));
-
-        // Cargar los datos de los usuarios
         cargarDatosUsuarios();
-
-        // Configurar el ComboBox
         CB1.getItems().addAll("admin", "user");
     }
 
+    /**
+     * Establece la conexión a la base de datos utilizando las credenciales
+     * proporcionadas.
+     *
+     * @throws SQLException Si ocurre un error al intentar conectar a la base de
+     * datos.
+     */
     public void setDB() throws SQLException {
-        this.db = SqlLib.getInstance("jdbc:mysql://localhost:3306/bd", "root", "contraseña");
+        this.db = SqlLib.getInstance("", "", "");
     }
 
+    /**
+     * Carga los datos de los usuarios desde la base de datos y los muestra en
+     * la tabla. Convierte los datos de la base de datos en objetos Usuario y
+     * los agrega a la vista.
+     */
     private void cargarDatosUsuarios() {
         try {
             // Cargar los datos desde la base de datos
@@ -153,6 +168,10 @@ public class AdminUserEditController implements Initializable {
         }
     }
 
+    /**
+     * Inicializa la vista para mostrar las opciones disponibles al
+     * administrador.
+     */
     @FXML
     private void initialize() throws SQLException {
         SP1.setVisible(true);
@@ -163,6 +182,12 @@ public class AdminUserEditController implements Initializable {
         CB1.getItems().addAll("admin", "user");
     }
 
+    /**
+     * Crea un nuevo usuario en la base de datos con los valores proporcionados
+     * en los campos de texto.
+     *
+     * @throws IOException Si ocurre un error al crear el usuario.
+     */
     @FXML
     public void crearUsuario() throws IOException {
         Object selectedValue = CB1.getValue();
@@ -185,11 +210,18 @@ public class AdminUserEditController implements Initializable {
             JOptionPane.showMessageDialog(null, "Usuario creado exitosamente");
             TFN.setText("");
             TFC.setText("");
+            cargarDatosUsuarios();
         } else {
             System.out.println("No se pudo w");
         }
     }
 
+    /**
+     * Verifica si el texto proporcionado puede convertirse en un número entero.
+     *
+     * @param texto El texto a verificar.
+     * @return true si el texto es un número entero, false de lo contrario.
+     */
     private boolean esNumeroEntero(String texto) {
         try {
             Integer.parseInt(texto);
@@ -199,6 +231,12 @@ public class AdminUserEditController implements Initializable {
         }
     }
 
+    /**
+     * Elimina un usuario de la base de datos según el ID proporcionado en el
+     * campo de texto.
+     *
+     * @throws Exception Si ocurre un error al eliminar el usuario.
+     */
     @FXML
     private void eliminarUsuario() throws Exception {
         String idUser = TFEliminar.getText().trim();
@@ -214,11 +252,16 @@ public class AdminUserEditController implements Initializable {
         if (db.removeUser(userID)) {
             JOptionPane.showMessageDialog(null, "Usuario eliminado correctamente");
             TFEliminar.setText("");
+            cargarDatosUsuarios();
         } else {
             JOptionPane.showMessageDialog(null, "No se pudo eliminar el usuario. Verifica que el ID sea correcto");
         }
     }
 
+    /**
+     * Modifica el nombre de un usuario de acuerdo con el ID y el nuevo nombre
+     * proporcionado.
+     */
     @FXML
     private void modificarNombre() {
         String idUsuario = TFID.getText().trim();
@@ -239,11 +282,16 @@ public class AdminUserEditController implements Initializable {
         if (db.setUsername(userID, newNombre)) {
             JOptionPane.showMessageDialog(null, "Nombre del usuario actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             TFNuevoNombre.setText("");
+            cargarDatosUsuarios();
         } else {
             JOptionPane.showMessageDialog(null, "Error al actualizar el nombre del usuario.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    /**
+     * Modifica la contraseña de un usuario de acuerdo con el ID y la nueva
+     * contraseña proporcionada.
+     */
     @FXML
     private void modificarContraseña() {
         String idUsuario = TFID.getText().trim();
@@ -264,11 +312,17 @@ public class AdminUserEditController implements Initializable {
         if (db.setUserPassword(userID, nuevaContraseña)) {
             JOptionPane.showMessageDialog(null, "Contraseña del usuario actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             TFNuevaContraseña.setText("");
+            cargarDatosUsuarios();
         } else {
             JOptionPane.showMessageDialog(null, "Error al actualizar la contraseña del usuario.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    /**
+     * Cambia la vista de la aplicación a la vista de administración.
+     *
+     * @throws IOException Si ocurre un error al cambiar la vista.
+     */
     @FXML
     private void cambiarAdminView() throws IOException {
         File fxmlFile = new File("src/main/resources/scenes/admin.fxml");
@@ -281,6 +335,9 @@ public class AdminUserEditController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Muestra la vista para agregar un nuevo usuario.
+     */
     @FXML
     private void cambiarAgregar() {
         AP1.setVisible(false);
@@ -289,6 +346,9 @@ public class AdminUserEditController implements Initializable {
         AP3.setStyle("-fx-background-color: #B4BF5E;");
     }
 
+    /**
+     * Muestra la vista para eliminar un usuario.
+     */
     @FXML
     private void cambiarEliminar() {
         AP1.setVisible(false);
@@ -297,6 +357,9 @@ public class AdminUserEditController implements Initializable {
         AP2.setStyle("-fx-background-color: #B4BF5E;");
     }
 
+    /**
+     * Muestra la vista para editar los datos de un usuario.
+     */
     @FXML
     private void cambiarEditar() {
         AP2.setVisible(false);
@@ -304,5 +367,4 @@ public class AdminUserEditController implements Initializable {
         AP1.setVisible(true);
         AP1.setStyle("-fx-background-color: #B4BF5E;");
     }
-
 }

@@ -28,7 +28,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Planta {
-    private final IntegerProperty id;
+    private final IntegerProperty idPlanta;
     private final StringProperty nombre;
     private final StringProperty nombreCientifico;
     private final StringProperty familia;
@@ -41,7 +41,7 @@ public class Planta {
     /**
      * Constructor de la clase Planta.
      * 
-     * @param id Identificador único de la planta.
+     * @param idPlanta Identificador único de la planta.
      * @param nombre Nombre común de la planta.
      * @param nombreCientifico Nombre científico de la planta.
      * @param familia Familia a la que pertenece la planta.
@@ -51,8 +51,8 @@ public class Planta {
      * @param imagenRuta Ruta de la imagen asociada a la planta.
      * @param eliminada Indica si la planta ha sido marcada como eliminada.
      */
-    public Planta(int id, String nombre, String nombreCientifico, String familia, String epocaFloracion, String habitat, String descripcion, String imagenRuta, boolean eliminada) {
-        this.id = new SimpleIntegerProperty(id);
+    public Planta(int idPlanta, String nombre, String nombreCientifico, String familia, String epocaFloracion, String habitat, String descripcion, String imagenRuta, boolean eliminada) {
+        this.idPlanta = new SimpleIntegerProperty(idPlanta);
         this.nombre = new SimpleStringProperty(nombre);
         this.nombreCientifico = new SimpleStringProperty(nombreCientifico);
         this.familia = new SimpleStringProperty(familia);
@@ -69,13 +69,13 @@ public class Planta {
      * Obtiene el identificador de la planta.
      * @return El identificador de la planta.
      */
-    public Integer getId() { return id.get(); }
+    public Integer getId() { return idPlanta.get(); }
 
     /**
      * Devuelve la propiedad del identificador para enlace de datos.
      * @return La propiedad del identificador.
      */
-    public IntegerProperty idProperty() { return id; }
+    public IntegerProperty idProperty() { return idPlanta; }
 
     /**
      * Obtiene el nombre común de la planta.
@@ -172,4 +172,5 @@ public class Planta {
      * @return La propiedad de eliminada.
      */
     public BooleanProperty eliminadaProperty() { return eliminada; }
+
 }

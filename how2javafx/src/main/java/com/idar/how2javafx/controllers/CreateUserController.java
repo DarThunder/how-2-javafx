@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.idar.how2javafx.controllers;
 
 import java.util.UUID;
@@ -20,6 +16,13 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import lib.SqlLib;
 
+/**
+ * Controlador para la pantalla de creación de usuario.
+ *
+ * Este controlador maneja la creación de un nuevo usuario a través de un
+ * formulario donde se ingresan el nombre de usuario y la contraseña. Además,
+ * proporciona la funcionalidad para regresar a la pantalla de inicio de sesión.
+ */
 public class CreateUserController {
 
     @FXML
@@ -37,21 +40,38 @@ public class CreateUserController {
 
     private SqlLib db;
 
+    /**
+     * Establece la conexión con la base de datos.
+     *
+     * @throws SQLException Si ocurre un error al conectar con la base de datos.
+     */
     public void setDB() throws SQLException {
         this.db = db.getInstance("", "", "");
     }
 
+    /**
+     * Inicializa el controlador y establece la conexión con la base de datos.
+     *
+     * @throws SQLException Si ocurre un error al conectar con la base de datos.
+     */
     @FXML
     private void initialize() throws SQLException {
         setDB();
     }
 
+    /**
+     * Crea un nuevo usuario con el nombre de usuario y la contraseña
+     * ingresados. Valida que los campos no estén vacíos antes de proceder con
+     * la creación del usuario.
+     *
+     * @throws IOException Si ocurre un error al intentar crear el usuario.
+     */
     @FXML
     public void create() throws IOException {
         String newUsername = username.getText().trim();
         String newPassword = passwd.getText().trim();
-        
-        if(newUsername.isEmpty() || newPassword.isEmpty()){
+
+        if (newUsername.isEmpty() || newPassword.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, llena todos los campos");
             return;
         }
@@ -63,13 +83,11 @@ public class CreateUserController {
             System.out.println("No se pudo w");
         }
     }
-    
-    
 
     /**
      * Cambia la escena actual a la pantalla de inicio de sesión.
      *
-     * @throws IOException si ocurre un error al cargar el archivo FXML.
+     * @throws IOException Si ocurre un error al cargar el archivo FXML.
      */
     @FXML
     private void switchToLogin() throws IOException {

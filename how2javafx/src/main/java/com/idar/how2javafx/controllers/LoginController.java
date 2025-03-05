@@ -17,6 +17,10 @@ import lib.SqlLib;
 
 /**
  * Controlador para la pantalla de inicio de sesión en la aplicación JavaFX.
+ *
+ * Este controlador maneja el inicio de sesión del usuario, la validación de
+ * credenciales y el cambio de escena dependiendo del rol del usuario. También
+ * maneja la apertura de la pantalla de creación de usuario.
  */
 public class LoginController {
 
@@ -40,7 +44,7 @@ public class LoginController {
     /**
      * Establece la conexión con la base de datos.
      *
-     * @throws java.sql.SQLException
+     * @throws SQLException Si ocurre un error al conectar con la base de datos.
      */
     public void setDb() throws SQLException {
         this.db = SqlLib.getInstance("", "", "");
@@ -49,6 +53,8 @@ public class LoginController {
     /**
      * Inicializa el controlador y configura el estilo del panel de inicio de
      * sesión.
+     *
+     * @throws SQLException Si ocurre un error al conectar con la base de datos.
      */
     @FXML
     private void initialize() throws SQLException {
@@ -61,6 +67,7 @@ public class LoginController {
      *
      * @return Una cadena con el rol del usuario ("admin", "user") o "nil" si
      * las credenciales son inválidas.
+     *
      * @throws SQLException Si ocurre un error en la consulta a la base de
      * datos.
      */

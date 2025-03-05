@@ -45,7 +45,7 @@
                   </Button>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="AP3" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="AP3" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <ImageView fitHeight="630.0" fitWidth="330.0" opacity="0.25" pickOnBounds="true">
                      <image>
@@ -167,7 +167,7 @@
             <Font name="Arial Black" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="BEditar" layoutX="34.0" layoutY="227.0" mnemonicParsing="false" onAction="#cambiarEditar" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Editar">
+      <Button fx:id="BEditar" layoutX="24.0" layoutY="227.0" mnemonicParsing="false" onAction="#cambiarEditar" prefHeight="35.0" prefWidth="93.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 5, 5);" text="Editar">
          <font>
             <Font name="Arial Black" size="16.0" />
          </font>

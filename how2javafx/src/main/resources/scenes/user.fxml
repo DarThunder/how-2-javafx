@@ -29,8 +29,8 @@
                               <Image url="@../images/pngwing.com.png" />
                            </image>
                         </ImageView>
-                        <TextField layoutX="42.0" layoutY="8.0" />
-                        <Button layoutX="199.0" layoutY="8.0" mnemonicParsing="false" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px;" text="Buscar">
+                        <TextField fx:id="buscadorTextField" layoutX="42.0" layoutY="8.0" />
+                        <Button fx:id="buscarButton" layoutX="199.0" layoutY="8.0" mnemonicParsing="false" onAction="#buscarPlantas" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px;" text="Buscar">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -61,7 +61,7 @@
                              <TextFlow fx:id="habitatPlanta" />
                              <ImageView fx:id="imagenPlanta" fitHeight="124.0" fitWidth="211.0" preserveRatio="true" />
                              <TextFlow fx:id="descripcionPlanta" />
-                             <TextArea fx:id="descripcionCompletaPlanta" prefHeight="329.0" prefWidth="469.0" editable="false" />
+                             <TextArea fx:id="descripcionCompletaPlanta" editable="false" prefHeight="329.0" prefWidth="469.0" />
                           </children>
                        </VBox>
                     </content>

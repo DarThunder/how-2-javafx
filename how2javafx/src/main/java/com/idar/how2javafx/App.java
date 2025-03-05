@@ -21,11 +21,10 @@ import static javafx.application.Application.launch;
  * Se encarga de inicializar la ventana principal y cargar la escena del login.
  */
 public class App extends Application {
-    private static SqlLib db; // Objeto de conexión con la base de datos
+    private static SqlLib db;
 
     /**
      * Método de inicio de la aplicación JavaFX.
-     *
      * @param stage La ventana principal de la aplicación.
      * @throws IOException Si ocurre un error al cargar el archivo FXML.
      */
